@@ -31,16 +31,16 @@ def renameColumn(self, columnIndex, newName):
 # region
 
 # Transform a column into a integer type
-def toInteger(self, columnIndex):
+def columnToInteger(self, columnIndex):
 
     # Get the name of the index
     currentName = self.getColumnName(columnIndex)
 
     # Transform the column
-    self.data[currentName] = pd.to_numeric(self.data[currentName], errors='coerce').astype('int64')
+    self.data[currentName] = pd.to_numeric(self.data[currentName], errors='coerce').astype('Int64')
 
 # Transform a column into a float type
-def toFloat(self, columnIndex):
+def columnToFloat(self, columnIndex):
 
     # THIS IS THE BIGGEST BULLSHIT, MORE THAN R EVEN!, IN THE HISTORY OF PROGRAMMING LANGUAGES
     # Turn out that iloc doesn't change shit: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#why-does-assignment-fail-when-using-chained-indexing
@@ -53,7 +53,7 @@ def toFloat(self, columnIndex):
     currentName = self.getColumnName(columnIndex)
 
     # Transform the column
-    self.data[currentName] = pd.to_numeric(self.data[currentName], errors='coerce').astype('float64')
+    self.data[currentName] = pd.to_numeric(self.data[currentName], errors='coerce').astype('Float64')
 
 
 
@@ -67,6 +67,16 @@ def toFloat(self, columnIndex):
 # Set the whole column
 def setColumn(self, index, values):
     self.data.iloc[ :  , index ] = values
+
+# Set the whole column to zero integers
+def setColumnZeroes(self, index):
+    self.data.iloc[ :  , index ] = 0
+    self.columnToInteger(index)
+
+# Set the whole column to zero integers
+def setColumnZeroesF(self, index):
+    self.data.iloc[ :  , index ] = 0
+    self.columnToFloat(index)
 
 # endregion
 
