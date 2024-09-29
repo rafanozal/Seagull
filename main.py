@@ -1,42 +1,71 @@
-# Install the required packages in your Python enviroment:
-
+# -----------------------------------------------------------------------------
+#
+# Prerequisites:
+#
+# Install the required packages in your Python enviroment. Usually these works
+#
+# pip install pandas
 # pip install matplotlib
 # pip install sklearn
 # pip install -U scikit-learn
+# -----------------------------------------------------------------------------
 
-
-# General libraries
-#import numpy as np
-#import matplotlib as mpl
-#import matplotlib.pyplot as plt
-
-#import random
 
 # Import Seagull for testing
+from src.Seagull.Seagull      import Seagull
+from src.Plot.Plot            import Plot
+from src.Plot.Heatmap.Heatmap import Heatmap
 
-from Seagull      import Seagull
-from Plot         import Plot
-from Plot.Heatmap import Heatmap
+import constants
 
 # Example of how to construct a Seagull object and play around with it
 def main():
 
-    # Try plotting
+    # -------------------------------------------------------------------------
+    # Constants initialization
+    # -------------------------------------------------------------------------
+    # Tell in which folder are we saving the images
+    SAVING_FOLDER = constants.OUT_FOLDER
+    # -------------------------------------------------------------------------
 
-    myImportantHeatmap = Heatmap("data/iris.csv")
 
-    myImportantHeatmap.heatmap()
+    # -------------------------------------------------------------------------
+    # Example 1:
+    # 
+    #   - Create a Seagull object of size 5 x 3 which is empty
+    #   - Initialize the same object to the iris dataset
+    #   - Print an overview of such object
+    # -------------------------------------------------------------------------
+    print()
+    print(" -- Example 1 -- ")
+    print()
+    # -------------------------------------------------------------------------
 
-    myImportantHeatmap.show()
-
-    # Define an empty Seagull object of 5 rows and 3 columns
-    # We will put the iris dataset here
+    # Prepare the dataframe
     irisDF = Seagull(5,3)
     irisDF.set_iris()
     irisDF.print_overview()
 
-    # Define an empty Seagull object of 5 rows and 3 columns
-    # We will put the iris dataset here
+    # -------------------------------------------------------------------------
+    # Example 2:
+    # 
+    #   - Create a default spotify dataset. This is composed of three tables
+    #         Table 0: Artists
+    #         Table 1: Songs
+    #         Table 2: Which artist compose each song
+    #
+    #   - Prepare the data for a heatmap.
+    #     We will plot the top 20 artist, and which month of the year they
+    #     release their songs.
+    #
+    #   - Show how to plot a heatmap
+    # -------------------------------------------------------------------------
+    print()
+    print(" -- Example 2 -- ")
+    print()
+    # -------------------------------------------------------------------------
+
+
     spotify_instances = Seagull.get_spotify_datasets()
 
     spotifyArtitstDF = spotify_instances[0]
@@ -73,12 +102,6 @@ def main():
 
     heatmapDataDF.print_overview()
 
-    #print(heatmapDataDF[0,0])
-    #print(heatmapDataDF[0,1])
-    #print(heatmapDataDF[0,8])
-    #print( type(heatmapDataDF[0,0]))
-    #print( type(heatmapDataDF[0,8]))
-
     #       For each artist, get the number of songs released in each month
     for i in range(totalTopArtists):
 
@@ -88,36 +111,84 @@ def main():
 
         # Search for the song made by this artist ID
         songsIDs = spotifyComposersDF.getPanda().iloc[spotifyComposersDF.getPanda().iloc[:, 1].values == artistID, 0].values
-        
-        print(songsIDs)
-
-        #songsIDs = spotifyComposersDF.keepColumnByValue(1, artistID)
 
         # For each song, get the month of the year
         for j in range(len(songsIDs)):
             songID = songsIDs[j]
 
             # Get the month of the year
-            #currentSong = spotifySongsDF.getPanda.loc[spotifySongsDF.getPanda()[0] == songID]
             currentSong = spotifySongsDF.getPanda().iloc[spotifySongsDF.getPanda().iloc[:, 0].values == songID, ]
-            #print(currentSong)
 
-            #currentSong = spotifySongsDF.getPanda().iloc[spotifySongsDF.getPanda().iloc[:, 0].values == songID, ].values
-
-            #print(currentSong)
-
-            #currentSong  = spotifySongsDF.keepColumnByValue(0, songID)
             currentMonth = currentSong.iloc[0,4]
-
-            #print(currentMonth)
-            #print( type(currentMonth))
-            #print( type(i))
 
             # Add one to the heatmap
             heatmapDataDF[i,currentMonth] = heatmapDataDF[i,currentMonth] + 1
 
-
+    # Show the heatmap data
     heatmapDataDF.print_overview()
+
+    # Normalize the data by rows
+    # In this case, we are interested in the percentage of songs released in each month
+    # and check whether there is a trend of top 20 artist releasing, for example, in summer
+    heatmapDataDF.normalize(column=False, avoidFirstColumn=True)
+    heatmapDataDF.print_overview()
+
+
+    # Until here, the data is ready.
+    # Now let's do the plotting
+
+
+
+    # This is the default initialization of the heatmap object.
+    myImportantHeatmap = Heatmap(SAVING_FOLDER)
+
+    # Update the heatmap with the new data and show it
+    myImportantHeatmap.update_from_seagull(heatmapDataDF)
+    
+    # Lets give it new labels
+    myImportantHeatmap.set_name("Top_20_artists_by_month")
+    myImportantHeatmap.set_title("Top 20 artists and the month of the year they release their songs")
+    myImportantHeatmap.set_x_label("Month")
+    myImportantHeatmap.set_y_label("Top 20 artists")
+
+    # Show the figure, this open up a window in runtime
+    myImportantHeatmap.show()
+
+    # Show the plot in the terminal via string representation
+    print(myImportantHeatmap)
+
+    # Save the plot
+    myImportantHeatmap.save()
+
+
+    # -------------------------------------------------------------------------
+    # Example 3:
+    # 
+    #   - Create a Seagull object from a csv file
+    #   - Print an overview of such object
+    # -------------------------------------------------------------------------
+    print()
+    print(" -- Example 3 -- ")
+    print()
+    # -------------------------------------------------------------------------
+
+    # Prepare the dataframe
+    irisDF = Seagull()
+    irisDF.loadFromCSV(constants.IRIS_PATH)  
+    irisDF.print_overview()
+
+    # -------------------------------------------------------------------------
+    # Example 4:
+    # 
+    #   - Do a barplot    
+    #   - Do a regression plot
+    #   - Do a boxplot plot    
+    # -------------------------------------------------------------------------
+    print()
+    print(" -- Example 4 -- ")
+    print()
+    # -------------------------------------------------------------------------
+
 
 # Call the main function
 if __name__ == "__main__":
