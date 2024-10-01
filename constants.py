@@ -11,20 +11,15 @@ IRIS_PATH           = os.path.join(DATASET_FOLDER_PATH, 'iris_dataset.csv')
 # /out/ folder for tests
 OUT_FOLDER = os.path.join(cwd, "out")
 
+# /res/ folder with resources
+RES_FOLDER            = os.path.join(cwd, "res")
+HTML_TEMPLATES_FOLDER = os.path.join(RES_FOLDER, "HTML")
+HTML_NUMERICAL_CATEGORICAL_TEMPLATE = os.path.join(HTML_TEMPLATES_FOLDER, "Numerical_Categorical.html")
 
-#DATASET_FOLDER_PATH = os.path.join(os.path.dirname(__file__), '..', '..', 'datasets')
-#SPOTIFY_PATH        = os.path.join(DATASET_FOLDER_PATH, 'spotify-2023.csv')
 
-# Go up three levels
-#pre1_dir = os.path.abspath(os.path.join(cwd,      os.pardir))
-#pre2_dir = os.path.abspath(os.path.join(pre1_dir, os.pardir))
-#pre3_dir = os.path.abspath(os.path.join(pre2_dir, os.pardir))
 
-# Go into the "folder_A" directory
-#TEST_FOLDER = os.path.join(pre3_dir, "segull_test")
 
-#print(TEST_FOLDER)
-
+# Testing...
 def main():
 
     print("Current folder:")

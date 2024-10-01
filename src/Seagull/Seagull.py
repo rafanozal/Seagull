@@ -95,6 +95,7 @@ class Seagull:
     # ---- Toy datasets
     #
     #      Iris dataset
+    #      Spotify dataset
     from .methods.toy_datasets import set_iris, get_spotify_datasets
 
     # -------------------------------------------------

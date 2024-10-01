@@ -47,8 +47,8 @@ class Heatmap(Plot):
     def __init__(self, folder_path, totalRows = 2, totalColumns = 2):
         super().__init__(folder_path)
 
-        if(self.name == None):
-            self.name = "Heatmap"
+        if(self.filename == None):
+            self.filename = "Heatmap"
 
         self.type = "Heatmap"
 
@@ -63,14 +63,14 @@ class Heatmap(Plot):
         string_length = 10
         self.row_labels = [''.join(random.choices(string.ascii_lowercase, k=string_length)) for _ in range(totalRows)]
         self.col_labels = [''.join(random.choices(string.ascii_lowercase, k=string_length)) for _ in range(totalColumns)]
-        # ----- Axis labels
+        # ---- Axis labels
         self.X_axis_label = self.label_x_axys
         self.Y_axis_label = self.label_y_axys
-        # ----- Legend label
+        # ---- Legend label
         self.legend_label = self.label_legend
-        # ----- Title label
+        # ---- Title label
         self.plot_title = self.label_title
-        # ----- Inside labels
+        # ---- Inside labels
         self.annotated            = True
         self.annotation_format    = "{x:.2f}"
         self.annonation_contrasts = ("black", "white")

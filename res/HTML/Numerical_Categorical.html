@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analysis Report</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            background-color: #cecece;
+            color: #333;
+        }
+        .container {
+            background: #f0f0f0;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1, h2 {
+            color: #0056b3;
+        }
+        p {
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Analysis Report</h1>
+        <h2>Details</h2>
+        <p><strong>Folder Path:</strong> {{folder_path}}</p>
+        <p><strong>Filename:</strong> {{filename}}</p>
+        <p><strong>Type of Analysis:</strong> {{type}}</p>
+        <p><strong>Table Name:</strong> {{tablename}}</p>
+        <p><strong>Last Updated:</strong> {{lastUpdate_human}}</p>
+    </div>
+</body>
+</html>
