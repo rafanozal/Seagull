@@ -8,6 +8,7 @@ This file contain functions that modify the contents of the dataframe
 
 # General libraries
 import pandas as pd
+import numpy as np
 
 # ---------------------------------
 # RENAMING
@@ -18,42 +19,33 @@ import pandas as pd
 def renameColumns(self, newNames):
     self.data = self.data.set_axis(newNames, axis=1, copy=False)
 
+setColumnsNames = renameColumns
+rename_columns  = renameColumns
+
 # Rename ONE column
-def renameColumn(self, columnIndex, newName):
+def rename_column(self, columnIndex, newName):
     self.data.rename(columns={self.data.columns[columnIndex]: newName}, inplace=True)
 
+setColumnName   = renameColumns
+renameColumn    = rename_column
 
-# endregion
+# Rename all rows
+def rename_rows(self, newNames):
+    self.data = self.data.set_axis(newNames, axis=0, copy=False)
 
-# ---------------------------------
-# CASTING
-# ---------------------------------
-# region
+setRowsNames = rename_rows
+renameRows   = rename_rows
 
-# Transform a column into a integer type
-def columnToInteger(self, columnIndex):
+# Rename ONE row
+def rename_row(self, rowIndex, newName):
+    self.data.rename(rows={self.data.rows[rowIndex]: newName}, inplace=True)
 
-    # Get the name of the index
-    currentName = self.getColumnName(columnIndex)
+setRowName   = rename_row
+renameRow    = rename_row
 
-    # Transform the column
-    self.data[currentName] = pd.to_numeric(self.data[currentName], errors='coerce').astype('Int64')
 
-# Transform a column into a float type
-def columnToFloat(self, columnIndex):
 
-    # THIS IS THE BIGGEST BULLSHIT, MORE THAN R EVEN!, IN THE HISTORY OF PROGRAMMING LANGUAGES
-    # Turn out that iloc doesn't change shit: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#why-does-assignment-fail-when-using-chained-indexing
-    # It can only read
-    # It cannot modify.
-    # YOU NEED TO GET THE NAME AND CHANGE BY NAME
-    # WHAT. THE FUCK. DESIGN IS THIS CRAP!??
 
-    # Get the name of the index
-    currentName = self.getColumnName(columnIndex)
-
-    # Transform the column
-    self.data[currentName] = pd.to_numeric(self.data[currentName], errors='coerce').astype('Float64')
 
 
 
@@ -73,7 +65,7 @@ def setColumnZeroes(self, index):
     self.data.iloc[ :  , index ] = 0
     self.columnToInteger(index)
 
-# Set the whole column to zero integers
+# Set the whole column to zero floats
 def setColumnZeroesF(self, index):
     self.data.iloc[ :  , index ] = 0
     self.columnToFloat(index)
@@ -91,9 +83,7 @@ def dropColumn(self, index):
     self.totalColumns -= 1
 
 # Delete a column (alias)
-def deleteColumn(self, index):
-    self.dropColumn(self, index)
-
+deleteColumn = dropColumn
 
 # endregion
 
@@ -101,6 +91,21 @@ def deleteColumn(self, index):
 # SPECIAL
 # ---------------------------------
 # region
+
+# Round a column to desired rounding
+def round_column(self, column_index, decimals = 2):
+
+    self[:,column_index] = np.round(self[:,column_index], decimals = decimals, out = self[:,column_index])
+
+    return 0
+
+# Round the entire dataframe
+def round(self, decimals = 2):
+
+    for i in range(self.totalColumns):
+        if (self.isNumerical(i)): self.round_column(i, decimals = decimals)
+
+    return 0
 
 # Normalize the data by columns or rows
 def normalize(self, column = True, avoidFirstColumn = False):

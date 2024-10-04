@@ -17,7 +17,7 @@ from ..Analysis import Analysis
 from ...Seagull import Seagull
 
 # Constants
-import constants
+from src import constants
 
 
 class Numerical_Categorical(Analysis):
@@ -265,32 +265,75 @@ class Numerical_Categorical(Analysis):
     # ----------------------------------
     def save(self, saveTXT = True, saveHTML = True):
 
-        super().save(saveTXT, saveHTML)
+        # Get the parent result
+        error, Analysis_HTML = super().save(saveTXT, saveHTML)
         
-        # Load the HTML template
-        html_template  = ""
-        html_file_path = constants.HTML_NUMERICAL_CATEGORICAL_TEMPLATE
-        with open(html_file_path, 'r', encoding='utf-8') as file:
-            html_template = file.read()
+        if(error >= 0):
 
-        # Values to insert
-        values = {
-            'folder_path':      self.folder_path,
-            'filename':         self.filename,
-            'type':             self.type,
-            'tablename':        self.tablename,
-            'lastUpdate_human': self.lastUpdate_human
-        }
+            # Values to insert
+            values = {
 
-        # Replace placeholders
-        for key, value in values.items():
-            print(key)
-            html_template = html_template.replace('{{' + key + '}}', str(value))
-            #html_template = html_template.replace(f'{{key}}', str(value))
-            print(value)
+                'subtype':     self.subtype,
+                'pvalue':      self.pvalue,
+                'pasterisk':   self.p_value_to_significance(self.pvalue),
+                'test_method': self.test_method,
 
-        # Save to file
-        save_path = self.folder_path + "/" + self.filename + ".html"
-        with open(save_path, 'w') as file:
-            file.write(html_template)
+
+                'normality_check':             constants.EMOJI_CHECK_CORRECT,
+                'group_a_normality_pasterisk': self.p_value_to_significance(self.group_a_normality_pvalue),
+                'group_a_normality_pvalue':    self.group_a_normality_pvalue,
+                'group_a_normality_shapwilk':  self.group_a_normality_shapwilk,
+                'group_a_check':               constants.EMOJI_CHECK_CORRECT,
+                'group_b_normality_pasterisk': self.p_value_to_significance(self.group_b_normality_pvalue),
+                'group_b_normality_pvalue':    self.group_b_normality_pvalue,
+                'group_b_normality_shapwilk':  self.group_b_normality_shapwilk,
+                'group_b_check':               constants.EMOJI_CHECK_CORRECT,
+
+                'group_a_name':   self.group_a_name,
+                'group_a_sample': self.group_a_sample,
+                'group_a_data':   self.group_a_data,
+                'group_b_name':   self.group_a_name,
+                'group_b_sample': self.group_b_sample,
+                'group_b_data':   self.group_b_data,
+
+                'variance_check':                    constants.EMOJI_CHECK_CORRECT,
+                'bartlett_check':                    constants.EMOJI_CHECK_CORRECT,
+                'levene_check':                      constants.EMOJI_CHECK_CORRECT,
+                'variance_method':                   self.variance_method,
+                'equal_variance_bartlett_pasterisk': self.p_value_to_significance(self.equal_variance_bartlett_pvalue),
+                'equal_variance_bartlett_pvalue':    self.equal_variance_bartlett_pvalue,
+                'equal_variance_bartlett_stat':      self.equal_variance_bartlett_stat,
+                'equal_variance_levene_pasterisk':   self.p_value_to_significance(self.equal_variance_levene_pvalue),
+                'equal_variance_levene_pvalue':      self.equal_variance_levene_pvalue,
+                'equal_variance_levene_stat':        self.equal_variance_levene_stat,
+
+            }
+            # Correct conditional values
+            if(self.group_a_normality_pvalue>0.05):
+                values['group_a_check']   = constants.EMOJI_CHECK_FAIL
+                values['normality_check'] = constants.EMOJI_CHECK_FAIL
+                
+            if(self.group_b_normality_pvalue>0.05):
+                values['group_b_check']   = constants.EMOJI_CHECK_FAIL
+                values['normality_check'] = constants.EMOJI_CHECK_FAIL
+
+            if(self.variance_method == 'bartlett'):
+                if(self.equal_variance_bartlett_pvalue < 0.05):
+                    values['variance_check'] = constants.EMOJI_CHECK_FAIL
+                    values['bartlett_check'] = constants.EMOJI_CHECK_FAIL
+            else:
+                if(self.equal_variance_levene_pvalue < 0.05):
+                    values['variance_check'] = constants.EMOJI_CHECK_FAIL
+                    values['levene_check']   = constants.EMOJI_CHECK_FAIL
+
+            # Replace placeholders
+            for key, value in values.items():
+                Analysis_HTML = Analysis_HTML.replace('{{' + key + '}}', str(value))
+
+            # Save to file
+            save_path = self.folder_path + "/" + self.filename + ".html"
+            with open(save_path, 'w') as file:
+                file.write(Analysis_HTML)
+
+            return(0, Analysis_HTML)
 

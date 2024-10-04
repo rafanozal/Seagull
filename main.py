@@ -16,6 +16,9 @@
 # -----------------------------------------------------------------------------
 
 
+# Pandas
+import pandas as pd
+
 # Seagull
 from src.Seagull.Seagull      import Seagull
 
@@ -28,8 +31,7 @@ from src.Plot.Barplots.Horizontal_Barplot import Horizontal_Barplot
 from src.Analysis.Analysis              import Analysis
 from src.Analysis.Numerical_Categorical import Numerical_Categorical
 
-# Constants
-import constants
+from src import constants
 
 # Example of how to construct a Seagull object and play around with it
 def main():
@@ -42,36 +44,136 @@ def main():
     # -------------------------------------------------------------------------
 
     # Tell which modules do you want to test
-    TEST_ALL      = False
-    TEST_BASICS   = False
-    TEST_HEATMAPS = False
-    TEST_CSV      = False
-    TEST_BARPLOTS = False           
-    TEST_NUMCATS  = True            
-    TEST_VODOROY  = False            
+    TEST_ALL        = False
+    TEST_BASICS     = False
+    TEST_RW         = True
+    TEST_CATEGORIES = False
+    TEST_MIXED      = False
+    TEST_HEATMAPS   = False
+    TEST_CSV        = False
+    TEST_BARPLOTS   = False           
+    TEST_NUMCATS    = False           
+    TEST_VODOROY    = False            
 
     # -------------------------------------------------------------------------
     # Example Basics:
     # 
-    #   - Create a Seagull object of size 5 x 3 which is empty
-    #   - Initialize the same object to the iris dataset
-    #   - Print an overview of such object
+    #   - Create a bunch Seagull object with different inits
+    #   - Print an overview of such objects
     # -------------------------------------------------------------------------
     if(TEST_ALL or TEST_BASICS):
 
         print()
-        print(" -- Example 1 -- ")
+        print(" -- Example Basics -- ")
+        print()
+
+        # Default
+        my_dF = Seagull()
+        print(my_dF)
+
+        # Giving dimensions
+        my_dF = Seagull(5,4)
+        print(my_dF)
+
+        # Giving types also
+        my_dF = Seagull(5,4, ["int","float","str", "date"])
+        print(my_dF)
+        
+        # Giving types only
+        my_dF = Seagull(dtypes = ["int","float","str", "date"])
+        print(my_dF)
+
+        # Giving wrong types and wrong amount of types
+        my_dF = Seagull(5,4, ["WHAT?", "str", "date"])
+        print(my_dF)
+
+    # -------------------------------------------------------------------------
+    # Example Assigning:
+    # 
+    # - ???
+    # -------------------------------------------------------------------------
+    if(TEST_ALL or TEST_RW):
+
+        # Create a new DF
+        my_df = Seagull(10,7, ["int","float","str", "date","date", "int", "date"])
+
+        # Rename columns
+        my_df.rename_columns(["A","B","C","D","D","E","D"])
+
+        # Set a few individual cells values
+        my_df[0,0]   = 1
+        my_df[0,1]   = 1.0
+        my_df[0,2]   = "one"
+        my_df[0,3]   = pd.to_datetime('01/20/2001')
+
+        my_df[1,"A"] = 2
+        my_df[1,"B"] = 2.0
+        my_df[1,"C"] = "two"
+        my_df[1,"D"] = pd.to_datetime('02/20/2002')
+
+        # Take a look inside
+        print(my_df)
+
+        # Set a few whole columns values
+        #my_df[ : ,0] = 5
+        #my_df[2: ,1] = 5
+        #my_df[1:3,2] = "five"
+
+        # Take a look inside
+        #print(my_df)
+
+        #my_cell_values = my_df[1,2]
+
+        #print(my_cell_values)
+
+        #my_column_values = my_df[2:7,2]
+
+        #print(my_column_values)
+
+        #my_row_values    = my_df[4  ,:]
+
+        
+        #print(my_row_values)
+
+        #my_df.randomize()
+        #my_df.zero()
+        #print(my_df)
+
+        #my_df["A",]
+        #0.0 0.0 0.0
+        #my_df["A",2]
+        #0.0
+        #my_df[1,]
+        #0.0 0.0 0.0
+        #my_df[1,2]
+        #0.0
+
+
+    # -------------------------------------------------------------------------
+    # Example Categorical:
+    # 
+    #   - Create a random categorical Seagull object
+    #   - Print an overview of such object
+    # -------------------------------------------------------------------------
+    if(TEST_ALL or TEST_CATEGORIES):
+
+        print()
+        print(" -- Example Categorical -- ")
         print()
 
         # ---------------------------------------------------------------------
         # Prepare the dataframe
         # ---------------------------------------------------------------------
-        irisDF = Seagull(5,3)
-        irisDF.set_iris()
-        irisDF.print_overview()
+        categoricalDF = Seagull(20,10)
+        categoricalDF.randomize_categorical()
+        categoricalDF.print_overview()
+
+        summaryDF = categoricalDF.summarize_categorical_column(4)
+        summaryDF.print_overview()
+        
 
     # -------------------------------------------------------------------------
-    # Example 2:
+    # Example Heatmaps:
     # 
     #   - Create a default spotify dataset. This is composed of three tables
     #         Table 0: Artists
@@ -117,7 +219,7 @@ def main():
         totalTopArtists = 20
 
         # Prepare the dataframe that will be use in the Heatmap later
-        heatmapDataDF = Seagull(totalTopArtists,13)
+        heatmapDataDF = Seagull(totalTopArtists , 13)
         heatmapDataDF.renameColumns(["Artist", "January", "February", "March", "April", "May", "June",
                                      "July", "August", "September", "October","November","December"])
 
@@ -193,7 +295,7 @@ def main():
 
 
     # -------------------------------------------------------------------------
-    # Example 3:
+    # Example CSV:
     # 
     #   - Create a Seagull object from a csv file
     #   - Print an overview of such object

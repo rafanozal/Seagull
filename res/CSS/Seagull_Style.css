@@ -1,0 +1,51 @@
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    margin: 20px;
+    background-color: #cecece;
+    color: #333;
+}
+.container {
+    background: #f0f0f0;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+h1, h2 {
+    color: #0056b3;
+}
+p {
+    margin: 10px 0;
+}
+
+/* ------------------------------------------------------------------------- */
+/* TABLES */
+/* ------------------------------------------------------------------------- */
+
+/* ------------------------------------------------------------------------- */
+/*      Common */
+/* ------------------------------------------------------------------------- */
+
+.table_cell{                                                   text-align:right  ; vertical-align:center }
+.table_level_1{                   background-color:#ffffc7 ; text-align:left   ; vertical-align:center }
+.table_level_1_check{             background-color:#ffffc7 ; text-align:right  ; vertical-align:center }
+.table_level_2_corner{                                         text-align:left   ; vertical-align:top }
+.table_level_2_header{            background-color:#ecf4ff ; text-align:center ; vertical-align:top }
+.table_level_2_group{             background-color:#ffce93 ; text-align:right  ; vertical-align:top }
+.table_level_2_methods_variances{ background-color:#cbcefb ; text-align:right  ; vertical-align:top }
+
+/* ------------------------------------------------------------------------- */
+/*      Parametric p-value */
+/* ------------------------------------------------------------------------- */
+
+.table_parametric_pvalue  {
+    border-collapse:collapse;
+    border-spacing:0;
+}
+
+.table_parametric_pvalue td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+  overflow:hidden;padding:10px 5px;word-break:normal;}
+.table_parametric_pvalue th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+  font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
+
+

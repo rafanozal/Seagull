@@ -37,7 +37,7 @@ import os
 from sklearn.datasets import load_iris
 
 # Import the constants to have access to the toy datasets
-import constants
+from src import constants
 
 
 
@@ -119,10 +119,13 @@ def get_spotify_datasets(cls):
     # --------------------
     # A) Artists dataset
     # --------------------
-
+    print("toydataset_A")
     # ---- Initialize the dataframe for our artists database
-    artistsDF   = cls(len(artists),3)
+    artistsDF   = cls( len(artists) , 3 , default_type = int)
     artistsDF.renameColumns(['ArtistID', 'ArtistName', 'ArtistTotalSongs'])
+    # ---- Set up the proper datatypes
+    artistsDF.columnToString(1)
+
     # ---- Initialize the data
     for i in range(len(artists)):
         artistsDF[i,0] = i
@@ -130,14 +133,17 @@ def get_spotify_datasets(cls):
         artistsDF[i,2] = 0
 
     # ----- Set the columns to be integers as suppose to be
-    artistsDF.columnToInteger(0)
-    artistsDF.columnToInteger(2)
+    #artistsDF.columnToInteger(0)
+    #artistsDF.columnToInteger(2)
 
     # --------------------
     # B) Songs dataset
     # --------------------
-    songsDF      = cls(completeData_totalRows , completeData_totalColumns)
-
+    print("toydataset_B")
+    songsDF      = cls(completeData_totalRows , completeData_totalColumns, default_type = int)
+    # ---- Set up the proper datatypes
+    songsDF.columnToString(1)
+    
     # The first column is going to the be song ID, the rest of the columns is going to be the same as completeData, but without the artists
     for i in range(completeData_totalRows):
         songsDF[i,0] = i                         # ID
@@ -155,17 +161,21 @@ def get_spotify_datasets(cls):
     songsDF.renameColumns(newColumnsNames)
 
     # Set the proper datatypes of the integers
-    songsDF.columnToInteger(0)
-    for i in range(2,completeData_totalColumns):
-        songsDF.columnToInteger(i)   
+    #songsDF.columnToInteger(0)
+    #for i in range(2,completeData_totalColumns):
+    #    songsDF.columnToInteger(i)   
 
     # --------------------
     # C) Composer dataset
     # --------------------
-
+    print("toydataset_C")
     # Create the dataset where everything goes
-    composersDF = cls(completeData_totalRows , 2)
+    composersDF = cls(completeData_totalRows , 2, default_type = int)
     composersDF.renameColumns(['SongID', 'ArtistID'])
+    # Set the proper datatypes of the integers
+    # composersDF.columnToInteger(0)
+    # composersDF.columnToInteger(1)
+
 
     # For each song, get the song ID, check which artists are in it, get the ID of the artist, and put it in the composersDF
     for i in range(completeData_totalRows):
@@ -195,8 +205,8 @@ def get_spotify_datasets(cls):
             artistsDF[k,2] += 1
     
     # Set the proper datatypes of the integers
-    composersDF.columnToInteger(0)
-    composersDF.columnToInteger(1)
+    #composersDF.columnToInteger(0)
+    #composersDF.columnToInteger(1)
 
 
     return [artistsDF, songsDF, composersDF]

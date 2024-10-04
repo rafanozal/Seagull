@@ -5,6 +5,9 @@ import random
 
 from scipy import stats
 
+# Constants
+from src import constants
+
 # Main class declaration
 class Analysis:
 
@@ -54,11 +57,10 @@ class Analysis:
     """
 
     # Imported methods
-    #
     # ---- String representations
-    #      
-    #      Showing the data in different ways at the console. Useful for debugging and quick overview.
     from .methods.strings_representations import external_str_method
+    # ---- Static methods
+    from .methods.statics_methods import p_value_to_significance, normality
 
     # -------------------------------------------------
     # Constructor
@@ -136,15 +138,58 @@ class Analysis:
     # Saving the analysis in disk
     # ----------------------------------
     def save(self, saveTXT = True, saveHTML = True):
-        
-        print("···")
-        print(self.folder_path)
 
+        # If the path for the folder is define continue        
         if(self.folder_path != None):
 
-            print("Saving...")
-            print(self.folder_path + "/" + self.filename)
+            # If you want to save the TXT or the HTML continue
+            if(saveTXT or saveHTML):
 
+                # When you want to save the HTML
+                if(saveHTML):
+
+                    print("Saving HTML report...")
+
+                    # Load the CSS template
+                    css_template  = ""
+                    css_file_path = constants.CSS_SEAGULL_STYLE
+                    with open(css_file_path, 'r', encoding='utf-8') as file:
+                        css_template = file.read()
+
+                    # Load the HTML template
+                    html_template  = ""
+                    html_file_path = constants.HTML_NUMERICAL_CATEGORICAL_TEMPLATE
+                    with open(html_file_path, 'r', encoding='utf-8') as file:
+                        html_template = file.read()
+
+                    # Insert the CSS code
+                    html_template = html_template.replace('{{CSS_style}}', css_template)
+
+                    # Values to insert
+                    values = {
+                        'folder_path':      self.folder_path,
+                        'filename':         self.filename,
+                        'type':             self.type,
+                        'tablename':        self.tablename,
+                        'lastUpdate_human': self.lastUpdate_human
+                    }
+
+                    # Replace placeholders
+                    for key, value in values.items():
+                        html_template = html_template.replace('{{' + key + '}}', str(value))
+
+                    return(0, html_template)
+                
+            else:
+                print("Can't save the analysis if you don't")
+                print("save either the TXT or the HTML")
+                print()
+                print("Please set:")
+                print(">>> myAnalysis.save(saveTXT  = True)")                
+                print("or")
+                print(">>> myAnalysis.save(saveHTML = True)")                
+
+                return(-2,None)                
         else:
             print("Can't save the analysis if you don't give a folder path first")
             print()
@@ -153,64 +198,4 @@ class Analysis:
             print("it protect you from saving the report accidentally")
             print("Which can be annoying if you are doing 1000s of analysis in a loop")
 
-
-
-    # -------------------------------------------------
-    # Others
-    # 
-    #     - Common methods to many subclasses
-    # -------------------------------------------------
-
-    # Transform p-values into asterisks
-    @staticmethod
-    def p_value_to_significance(p_value):
-        """
-        Transforms a p-value into a significance level string based on conventional statistical thresholds.
-
-        Parameters:
-        - p_value (float): A numerical p-value between 0 and 1, typically obtained from statistical tests.
-
-        Returns:
-        - str: A string representing the significance level:
-            "****" for p < 0.0001 (highly significant),
-            "***"  for p < 0.001  ,
-            "**"   for p < 0.01   ,
-            "*"    for p < 0.05   ,
-            "ns"   for p >= 0.05  (not significant).
-
-        Examples:
-        >>> p_value_to_significance(0.00005)
-        '****'
-        >>> p_value_to_significance(0.004)
-        '***'
-        >>> p_value_to_significance(0.03)
-        '*'
-        >>> p_value_to_significance(0.1)
-        'ns'
-        """
-        if p_value < 0.0001:
-            return '****'
-        elif p_value < 0.001:
-            return '***'
-        elif p_value < 0.01:
-            return '**'
-        elif p_value < 0.05:
-            return '*'
-        else:
-            return 'ns'
-
-    # Check whether data is normally distributed or not based on Shapiro-Wilk test
-    @staticmethod
-    def normality(numerical_data):
-        '''
-        Shapiro-Wilk Test
-
-        The Shapiro-Wilk test is widely used for testing the normality of data.
-        It tests the null hypothesis that the data was drawn from a normal
-        distribution.
-
-        Return True if normally distributed
-        '''
-        stat_normal, p_value_normal = stats.shapiro(numerical_data)
-
-        return [p_value_normal<0.05, p_value_normal, stat_normal]
+            return(-1,None)

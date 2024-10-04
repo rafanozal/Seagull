@@ -6,35 +6,162 @@
     <title>Analysis Report</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            margin: 20px;
-            background-color: #f4f4f4;
-            color: #333;
-        }
-        .container {
-            background: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        }
-        h1, h2 {
-            color: #0056b3;
-        }
-        p {
-            margin: 10px 0;
-        }
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    margin: 20px;
+    background-color: #cecece;
+    color: #333;
+}
+.container {
+    background: #f0f0f0;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+h1, h2 {
+    color: #0056b3;
+}
+p {
+    margin: 10px 0;
+}
+
+/* ------------------------------------------------------------------------- */
+/* TABLES */
+/* ------------------------------------------------------------------------- */
+
+/* ------------------------------------------------------------------------- */
+/*      Common */
+/* ------------------------------------------------------------------------- */
+
+.table_cell{                                                   text-align:right  ; vertical-align:center }
+.table_level_1{                   background-color:#ffffc7 ; text-align:left   ; vertical-align:center }
+.table_level_1_check{             background-color:#ffffc7 ; text-align:right  ; vertical-align:center }
+.table_level_2_corner{                                         text-align:left   ; vertical-align:top }
+.table_level_2_header{            background-color:#ecf4ff ; text-align:center ; vertical-align:top }
+.table_level_2_group{             background-color:#ffce93 ; text-align:right  ; vertical-align:top }
+.table_level_2_methods_variances{ background-color:#cbcefb ; text-align:right  ; vertical-align:top }
+
+/* ------------------------------------------------------------------------- */
+/*      Parametric p-value */
+/* ------------------------------------------------------------------------- */
+
+.table_parametric_pvalue  {
+    border-collapse:collapse;
+    border-spacing:0;
+}
+
+.table_parametric_pvalue td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+  overflow:hidden;padding:10px 5px;word-break:normal;}
+.table_parametric_pvalue th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+  font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
+
+
+
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Analysis Report</h1>
-        <h2>Details</h2>
-        <p><strong>Folder Path:</strong> /home/gromenawer/Desktop/GIT/Seagull/out</p>
-        <p><strong>Filename:</strong> No_File_Name</p>
-        <p><strong>Type of Analysis:</strong> Numerical Categorical</p>
-        <p><strong>Table Name:</strong> No_Table_Name</p>
-        <p><strong>Last Updated:</strong> 2024-10-02 01:32:34 (Timestamp: 2024-10-02 01:32:34.094676)</p>
+        <h1>Numerical Categorical</h1>
+
+        <h2>Basics</h2>
+        <p><strong>Folder Path:     </strong> /home/gromenawer/Desktop/GIT/Seagull/out      </p>
+        <p><strong>Filename:        </strong> No_File_Name         </p>
+        <p><strong>Table Name:      </strong> No_Table_Name        </p>
+        <p><strong>Last Updated:    </strong> 2024-10-02 11:55:08 </p>
+        <hr style="width:50%">
+
+        <h2>Parametric T-test (ns)</h2>
+
+        <p><strong> P-value: </strong> 0.2511963625491487 </p>
+        
+        <h3>Methods and Preconditions</h3>
+
+            <p><strong>Method: </strong> student</p>
+
+            <table class="table_parametric_pvalue"><thead>
+              <tr>
+                <th class="table_level_1" colspan="4"><span style="font-weight:bold">Normality</span> (Shapiro-Wilk)<br><span style="font-style:italic">all must be true</span></th>
+                <th class="table_level_1_check">✅</th>
+              </tr></thead>
+            <tbody>
+              <tr>
+                <td class="table_level_2_corner"></td>
+                <td class="table_level_2_header" colspan="2">p-v</td>
+                <td class="table_level_2_header">stat</td>
+                <td class="table_level_2_header">check</td>
+              </tr>
+              <tr>
+                <td class="table_level_2_group"> Group A                </td>
+                <td class="table_cell">          ** </td>
+                <td class="table_cell">          0.003943554354636801    </td>
+                <td class="table_cell">          0.9598812088121342  </td>
+                <td class="table_cell">          ✅               </td>
+              </tr>
+              <tr>
+                <td class="table_level_2_group"> Group A                </td>
+                <td class="table_cell">          ** </td>
+                <td class="table_cell">          0.002812851693998646    </td>
+                <td class="table_cell">          0.9221096739421759  </td>
+                <td class="table_cell">          ✅               </td>
+              </tr>
+              <tr>
+                <td class="table_level_1" colspan="4"><span style="font-weight:bold">Equal variance</span> (using: bartlett)</td>
+                <td class="table_level_1_check">✅</td>
+              </tr>
+              <tr>
+                <td class="table_level_2_corner"></td>
+                <td class="table_level_2_header" colspan="2">p-v</td>
+                <td class="table_level_2_header">stat</td>
+                <td class="table_level_2_header">Check</td>
+              </tr>
+              <tr>
+                <td class="table_level_2_methods_variances">Bartlett</td>
+                <td class="table_cell">ns</td>
+                <td class="table_cell">0.24605976405620927</td>
+                <td class="table_cell">1.3455375605760787</td>
+                <td class="table_cell">✅</td>
+              </tr>
+              <tr>
+                <td class="table_level_2_methods_variances">Levene</td>
+                <td class="table_cell">ns</td>
+                <td class="table_cell">0.21708950654850567</td>
+                <td class="table_cell">1.5365803115419308</td>
+                <td class="table_cell">✅</td>
+              </tr>
+            </tbody></table>
+
+        <h2>Data</h2>
+
+        <h3> Group A , (n = 100  ) </h3> 
+        <p><i> [-0.56856349  0.52221547  0.58271367 -0.36756601 -0.14373533  0.52711297
+ -0.79175794  0.88085101  0.88805034 -0.50800168  0.26629683  0.19170389
+ -0.00721564  0.17488992  0.95774427  0.69845277  0.28969084 -0.82605429
+  0.29861108 -0.84576716 -0.90378505 -0.8336639   0.56064754 -0.90517275
+ -0.10934475  0.51666791 -0.13530045  0.26831058 -0.59520304  0.09099453
+  0.30717553  0.62583898 -0.46783573 -0.88349695 -0.74635673  0.28904555
+  0.40045456  0.70333234  0.18041552 -0.27226515  0.1086414   0.00563393
+ -0.29262843 -0.13490343  0.15194083  0.09301556  0.51775106  0.11793875
+  0.91071131 -0.10927952  0.99890217 -0.58947117 -0.2636005   0.0572056
+  0.67592835 -0.06221525 -0.82826432 -0.47959692  0.44481425 -0.31292603
+ -0.06943817  0.78752211  0.37998799 -0.34996394 -0.1531356   0.47621692
+  0.37601637 -0.01603382  0.66902032 -0.21420485 -0.47213693  0.36076075
+  0.72510673  0.47033979 -0.88077327 -0.8441647  -0.36621393  0.93659072
+ -0.57490907 -0.02555901  0.31341042  0.90876127 -0.81953255 -0.3574837
+  0.69403024 -0.42085688  0.69584307 -0.05728954 -0.01500392 -0.77844419
+  0.02558522  0.29021266 -0.4198962   0.50202058  0.59799182 -0.99265809
+  0.51498754  0.43048989  0.77403346 -0.98113531] </i></p>
+
+        <h3> Group A , (n = 50  ) </h3> 
+        <p><i> [-0.13791264 -0.18349986 -0.5730347  -0.48794413  0.71055827 -0.85065339
+  0.01774206  0.88391432 -0.29350858  0.98174426 -0.25612945 -0.53139142
+ -0.9121601   0.98974809 -0.07528367 -0.95913335 -0.92447032  0.56469335
+ -0.72721229 -0.71411076  0.6734441  -0.47271805  0.90371501  0.18436601
+ -0.87097139  0.38691894  0.42330962 -0.9242079  -0.60410368 -0.33612716
+  0.02519121  0.79253021 -0.93999126 -0.28381846 -0.03437684  0.94193909
+  0.29888421 -0.46372316 -0.87176055  0.35212553 -0.30263339  0.98247552
+  0.82727687 -0.05049563 -0.71129339  0.16327885 -0.24919821 -0.36724935
+  0.7557149  -0.85995858] </i></p>
+
     </div>
 </body>
 </html>

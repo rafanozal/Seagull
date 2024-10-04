@@ -54,3 +54,16 @@ def keepColumnByValue(self, columnIndex, targetValue, override = False):
         self.totalRows = mySelfCopy.totalRows
         self.totalColumns = mySelfCopy.totalColumns
         return self
+    
+# Return an integer with how many values are in the given column
+def countByValue(self, columnIndex, targetValue):
+
+    # This is a numpy array that doesn't have the count method
+    # converted to list that it has. Maybe there's a more
+    # efficient way (C++ pointers <3 ) to do this in PYthon
+    # but I can't bother to figure it out now
+    myData = self[:,columnIndex].tolist()
+
+    
+
+    return myData.count(targetValue)

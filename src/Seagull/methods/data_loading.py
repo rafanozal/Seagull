@@ -39,4 +39,4 @@ def loadFromCSV(self, csv_path, encoding='utf-8', header = "infer"):
     self.renameColumns(completeData_columnNames)
 
     # Return error code?
-    #return 0
+    return 0

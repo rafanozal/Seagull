@@ -5,36 +5,91 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Analysis Report</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            margin: 20px;
-            background-color: #cecece;
-            color: #333;
-        }
-        .container {
-            background: #f0f0f0;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        }
-        h1, h2 {
-            color: #0056b3;
-        }
-        p {
-            margin: 10px 0;
-        }
+        {{CSS_style}}
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Analysis Report</h1>
-        <h2>Details</h2>
-        <p><strong>Folder Path:</strong> {{folder_path}}</p>
-        <p><strong>Filename:</strong> {{filename}}</p>
-        <p><strong>Type of Analysis:</strong> {{type}}</p>
-        <p><strong>Table Name:</strong> {{tablename}}</p>
-        <p><strong>Last Updated:</strong> {{lastUpdate_human}}</p>
+        <h1>{{type}}</h1>
+
+        <h2>Basics</h2>
+        <p><strong>Folder Path:     </strong> {{folder_path}}      </p>
+        <p><strong>Filename:        </strong> {{filename}}         </p>
+        <p><strong>Table Name:      </strong> {{tablename}}        </p>
+        <p><strong>Last Updated:    </strong> {{lastUpdate_human}} </p>
+
+        <hr style="width:50%">
+
+        <h2>{{subtype}} ({{pasterisk}})</h2>
+
+        <p><strong> P-value: </strong> {{pvalue}} </p>
+        
+        <h3>Methods and Preconditions</h3>
+
+            <p><strong>Method: </strong> {{test_method}}</p>
+
+            <table class="table_parametric_pvalue"><thead>
+              <tr>
+                <th class="table_level_1" colspan="4"><span style="font-weight:bold">Normality</span> (Shapiro-Wilk)<br><span style="font-style:italic">all must be true</span></th>
+                <th class="table_level_1_check">{{normality_check}}</th>
+              </tr></thead>
+            <tbody>
+              <tr>
+                <td class="table_level_2_corner"></td>
+                <td class="table_level_2_header" colspan="2">p-v</td>
+                <td class="table_level_2_header">stat</td>
+                <td class="table_level_2_header">check</td>
+              </tr>
+              <tr>
+                <td class="table_level_2_group"> {{group_a_name}}                </td>
+                <td class="table_cell">          {{group_a_normality_pasterisk}} </td>
+                <td class="table_cell">          {{group_a_normality_pvalue}}    </td>
+                <td class="table_cell">          {{group_a_normality_shapwilk}}  </td>
+                <td class="table_cell">          {{group_a_check}}               </td>
+              </tr>
+              <tr>
+                <td class="table_level_2_group"> {{group_b_name}}                </td>
+                <td class="table_cell">          {{group_b_normality_pasterisk}} </td>
+                <td class="table_cell">          {{group_b_normality_pvalue}}    </td>
+                <td class="table_cell">          {{group_b_normality_shapwilk}}  </td>
+                <td class="table_cell">          {{group_b_check}}               </td>
+              </tr>
+              <tr>
+                <td class="table_level_1" colspan="4"><span style="font-weight:bold">Equal variance</span> (using: {{variance_method}})</td>
+                <td class="table_level_1_check">{{variance_check}}</td>
+              </tr>
+              <tr>
+                <td class="table_level_2_corner"></td>
+                <td class="table_level_2_header" colspan="2">p-v</td>
+                <td class="table_level_2_header">stat</td>
+                <td class="table_level_2_header">Check</td>
+              </tr>
+              <tr>
+                <td class="table_level_2_methods_variances">Bartlett</td>
+                <td class="table_cell">{{equal_variance_bartlett_pasterisk}}</td>
+                <td class="table_cell">{{equal_variance_bartlett_pvalue}}</td>
+                <td class="table_cell">{{equal_variance_bartlett_stat}}</td>
+                <td class="table_cell">{{bartlett_check}}</td>
+              </tr>
+              <tr>
+                <td class="table_level_2_methods_variances">Levene</td>
+                <td class="table_cell">{{equal_variance_levene_pasterisk}}</td>
+                <td class="table_cell">{{equal_variance_levene_pvalue}}</td>
+                <td class="table_cell">{{equal_variance_levene_stat}}</td>
+                <td class="table_cell">{{levene_check}}</td>
+              </tr>
+            </tbody></table>
+
+        <hr style="width:50%">
+
+        <h2>Data</h2>
+
+        <h3> {{group_a_name}} , (n = {{group_a_sample}}  ) </h3> 
+        <p><i> {{group_a_data}} </i></p>
+
+        <h3> {{group_b_name}} , (n = {{group_b_sample}}  ) </h3> 
+        <p><i> {{group_b_data}} </i></p>
+
     </div>
 </body>
 </html>
