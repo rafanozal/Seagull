@@ -1,0 +1,61 @@
+Analysis follow this type of class inheritance
+
+[ANALYSIS]
+|
+| ---- / 1V
+|      |
+|      | ---- / Categorical
+|      |      |
+|      |      | - Barplots Horizontal
+|      |      | - Barplots Vertical
+|      |      | - 
+|      |      | - 
+|      |
+|      | ---- / Numerical
+|      |      |
+|      |      | - Distribution shape  (normal, weibull, etc...)
+|      |      | - Confident intervals (parametric and non-parametric)
+|      |
+|      |
+|
+| ---- / 2V
+|      |
+|      | ---- / Categorical and Numerical
+|      | ---- / Categorical and Categorical
+|      |      |
+|      |      | - Contingency table (Xi^2 table)
+
+|      | ---- / Numerical   and Numerical
+|      | ---- / Numerical   and Date
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|

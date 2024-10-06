@@ -1,0 +1,82 @@
+Plots follow this type of class inheritance
+
+[PLOTS]
+|
+|   folder_path    (str): (None)     The directory where the image for this plot is stored.
+|   type           (str): ("")       The type of plot (e.g., "scatter", "histogram").
+|   filename       (str): (None)     The name of the file to be saved. If provided, the plot will be saved with this
+|                                    filename in the formats .png, .pdf, and .svg inside the folder_path.
+|
+|   figure:               (None)     The mathplotlib figure object of the plot.
+|   figure_width   (int): (10)       X size of the figure
+|   figure_height  (int): (15)       Y size of the figure
+|
+|   label_title    (str): ("")       The main title label of the plot.
+|   label_subtitle (str): ("")       The subtitle label of the plot.
+|   label_y_axys   (str): ("")       The label for the y-axis of the plot.
+|   label_x_axys   (str): ("")       The label for the x-axis of the plot.
+|   label_legend   (str): ("")       The label for the legend of the plot.
+|
+|
+| ---- / V1Plot
+|      |
+|      | ---- / Categorical
+|      |      |
+|      |      | - Barplots Horizontal
+|      |      | - Barplots Vertical
+|      |      | - 
+|      |      | - 
+|      |
+|      | ---- / Numerical
+|      |      |
+|      |      | - Histogram
+|      |      | - Density
+|      |
+|
+| ---- / 2V
+|      |
+|      | ---- / Categorical and Numerical
+|      |      |
+
+|      | ---- / Categorical and Categorical
+|      |      |
+|      |      | - Heatmaps (count the total combinations automatically)
+
+|      | ---- / Numerical   and Numerical
+|      |      |
+
+|      | ---- / Numerical   and Date
+|      |      |
+|
+|
+| ---- / 3V
+|
+|      | ---- / Categorical and Categorical and Numerical
+|      |      |
+|      |      | - Heatmaps (totals are given)
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|

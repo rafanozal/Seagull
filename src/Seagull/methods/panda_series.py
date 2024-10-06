@@ -2,6 +2,9 @@ import pandas as pd
 import numpy as np
 import random
 
+# Import the constants to have access to the toy datasets
+from src import constants
+
 @classmethod
 def generate_random_date(cls, start_date, end_date):
     """
@@ -36,26 +39,51 @@ def create_series(cls, length, dtype):
 
     # Integers
     if dtype == 'int':
-        my_serie = pd.Series(np.zeros(length, dtype='int64'))
-    
+        my_serie = pd.Series([0] * length, dtype="Int64")
+    elif dtype == 'Int64':
+        my_serie = pd.Series([0] * length, dtype="Int64")   # This is nullable
+    elif dtype == 'int64':
+        my_serie = pd.Series([0] * length, dtype="int64")   # This is not. Default for all option is always nullable unless otherwise specified
+
+
     # Floats
     elif dtype == 'float':
-        my_serie = pd.Series(np.zeros(length, dtype='float64'))
-    
+        my_serie = pd.Series([0] * length, dtype="Float64")
+    elif dtype == 'Float64':
+        my_serie = pd.Series([0] * length, dtype="Float64")
+    elif dtype == 'float64':
+        my_serie = pd.Series([0] * length, dtype="float64")
+
     # Strings
     elif dtype == 'str':
-        my_serie = pd.Series(['0'] * length)
+        my_serie = pd.Series(['0'] * length, dtype = 'object')
     elif dtype == 'string':
-        my_serie = pd.Series(['0'] * length)
+        my_serie = pd.Series(['0'] * length, dtype = 'object')
+    elif dtype == 'object':
+        my_serie = pd.Series(['0'] * length, dtype = 'object')
+
+    # Categories
+    elif dtype == 'category':
+        my_serie = pd.Series([constants.CATEGORICAL_NAN] * length, dtype = 'category')
 
     # Dates
     elif dtype == 'date':
         # Using NaT for date 'zero'
-        my_serie = pd.Series([pd.NaT] * length)
+        my_serie = pd.Series([pd.NaT] * length, dtype = 'datetime64[ns]')
+    elif dtype == 'datetime':
+        my_serie = pd.Series([pd.NaT] * length, dtype = 'datetime64[ns]')
+    elif dtype == 'time':
+        my_serie = pd.Series([pd.NaT] * length, dtype = 'datetime64[ns]')
+    elif dtype == 'datetime64[ns]':
+        my_serie = pd.Series([pd.NaT] * length, dtype = 'datetime64[ns]')
     
     # Default (floats)
     else:
+
+        my_serie = pd.Series([0] * length, dtype="Float64")
+
         print("WARNING!: Uknown serie type ("+str(dtype)+"), using float instead")
-        my_serie = pd.Series(np.zeros(length, dtype='float64'))
+        print()
+        
 
     return my_serie

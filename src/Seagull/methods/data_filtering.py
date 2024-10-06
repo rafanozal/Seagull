@@ -16,12 +16,10 @@ def keepColumnTopValues(self, columnIndex, topValues = 20):
     self.data = self.data.head(topValues)
 
     # We are going to reset the index
-    self.data = self.data.reset_index(drop=True)
+    # self.data = self.data.reset_index(drop=True)
 
-    # We are going to update the total rows
-    self.totalRows = self.data.shape[0]
-
-    # We are going to update the total columns
+    # We are going to update the dimensions
+    self.totalRows    = self.data.shape[0]
     self.totalColumns = self.data.shape[1]
 
     # We are going to return the object

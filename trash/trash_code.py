@@ -65,3 +65,29 @@
         self.image = im
 
         #return im, cbar
+
+
+# Normalize the data by columns or rows
+def normalize222(self, column = True, avoidFirstColumn = False):
+
+    # If the first column need to be preserved, save the rest of the columns
+    # into a temporal dataframe, normalize that, and then put it back
+    if(avoidFirstColumn == True):
+        temporalDataframe = self.data.iloc[ :  , 1 : ]
+    else:
+        temporalDataframe = self.data
+
+    # Normalize the data
+    if(column == True):
+        # Normalize by column
+        temporalDataframe = temporalDataframe.apply(lambda x: (x - x.min()) / (x.max() - x.min()))
+
+    else:
+        # Normalize by row
+        temporalDataframe = temporalDataframe.apply(lambda x: (x - x.min()) / (x.max() - x.min()), axis=1)
+
+    # Put the data back
+    if(avoidFirstColumn == True):
+        self.data.iloc[ :  , 1 : ] = temporalDataframe
+    else:
+        self.data = temporalDataframe

@@ -29,8 +29,7 @@ This include:
 
 # General libraries
 import numpy as np
-import matplotlib        as mpl
-import matplotlib.pyplot as plt
+import matplotlib.pyplot      as plt
 import matplotlib.patheffects as PathEffects
 import random
 import string

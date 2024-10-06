@@ -32,7 +32,7 @@ def c(self, index):
 
 # Get the data types of the columns
 def getColumnTypes(self):
-    return self.data.dtypes
+    return self.data.dtypes.to_list()
 
 
 # Check if the column is categorical
@@ -51,6 +51,12 @@ def isCategorical(self, index):
 # Check if the column is stricly strings without categorical
 def isCharacter(self, index):
     return self.data.iloc[ :  , index ].dtype == "object"
+isString = isCharacter
+
+# Check if the column is boolean
+def isBool(self, index):
+    return self.data.iloc[ :  , index ].dtype == "bool"
+isBoolean = isBool
 
 # If a column have categorical data, return the categories
 def getCategories(self, index):
@@ -81,18 +87,26 @@ def isNumerical(self, index):
 
     toReturn = False
 
-    if(self.data.iloc[ :    , index ].dtype == "float64"):
-        toReturn = True
-    elif(self.data.iloc[ :  , index ].dtype == "int64"):
+    # Integers
+    if(self.data.iloc[ :    , index ].dtype == "int64"):
         toReturn = True
     elif(self.data.iloc[ :  , index ].dtype == "int32"):
-        toReturn = True
-    elif(self.data.iloc[ :  , index ].dtype == "Float64"):
         toReturn = True
     elif(self.data.iloc[ :  , index ].dtype == "Int64"):
         toReturn = True
     elif(self.data.iloc[ :  , index ].dtype == "Int32"):
-        toReturn = True        
+        toReturn = True
+
+    # Floats
+    elif(self.data.iloc[ :  , index ].dtype == "float64"):
+        toReturn = True
+    elif(self.data.iloc[ :  , index ].dtype == "Float64"):
+        toReturn = True
+    elif(self.data.iloc[ :  , index ].dtype == "float32"):
+        toReturn = True
+    elif(self.data.iloc[ :  , index ].dtype == "Float32"):
+        toReturn = True
+
 
     return toReturn
 

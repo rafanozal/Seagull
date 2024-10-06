@@ -38,14 +38,19 @@ def summarize_categorical_column(self, column_index, sort = "original", top = 0)
     # each function. (This doesn't happen in superior C++ of course)
     from ..Seagull import Seagull
 
+    # Transform the column index which might be a string to an integer
+    if(type(column_index) == str):
+        column_index = self.getColumnIndex(column_index)
+
+
     categories = self.getCategories(column_index)
     total_categories = len(categories)
 
     total_rows = self.totalRows
 
-    resultDF = Seagull(total_categories, 5)
-
+    resultDF = Seagull(total_categories, 5, dtypes=["category", "int", "int", "float", "float"])
     resultDF.renameColumns(["Category", "n", "N", "f", "F"])
+    resultDF.set_categories(0, categories)
 
     # Init the modalities and count each values
     for i in range(total_categories):
@@ -69,10 +74,6 @@ def summarize_categorical_column(self, column_index, sort = "original", top = 0)
     # recast the appropiate columns
     resultDF.columnToInteger(1)
     resultDF.columnToInteger(2)
-
-    #resultDF.data[['n', 'N']] = resultDF.data[['n', 'N']].astype(int) # this also works
-
-
 
     # Round the frequencies
     # Int columns remain unchanged

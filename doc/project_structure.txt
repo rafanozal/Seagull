@@ -1,0 +1,53 @@
+Project folders and files:
+
+[ROOT]                                                         # 
+|                                                              #
+| ---- /datasets/                                              #    Folder with a few toy datasets
+|      |                                                       #
+|      | ---- /Fastq/                                          #        Folder with Fastq files
+|      |      |                                                #
+|      |      | - TESTX_H7YRLADXX_S1_L001_R1_001.fastq.gz      #
+|      |      | - TESTX_H7YRLADXX_S1_L001_R2_001.fastq.gz      #
+|      |      | - TESTX_H7YRLADXX_S1_L002_R1_001.fastq.gz      #
+|      |      | - TESTX_H7YRLADXX_S1_L002_R2_001.fastq.gz      #
+|      |                                                       #
+|      | - diabetes.csv                                        #
+|      | - iris_dataset.csv                                    #
+|      | - spotify-2023.csv                                    #
+|                                                              #
+| ---- /doc/                                                   #
+|      |                                                       #
+|      | - project_structure                                   #
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
