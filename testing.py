@@ -31,3 +31,6 @@ categories = ['Apple', 'Banana', 'Cherry', 'Fig', 'Grape', 'Honeydew', 'Kiwi', '
 df.iloc[:, 2] = df.iloc[:, 2].cat.set_categories(categories, ordered=True)
 
 print(df)
+
+print(np.random.rand(100) )
+

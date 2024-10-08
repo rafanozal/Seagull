@@ -11,7 +11,13 @@ SPOTIFY_PATH        = os.path.join(DATASET_FOLDER_PATH, 'spotify-2023.csv')
 IRIS_PATH           = os.path.join(DATASET_FOLDER_PATH, 'iris_dataset.csv')
 
 # /out/ folder for the examples
-OUT_FOLDER   = os.path.join(cwd, "out")
+OUT_FOLDER           = os.path.join(cwd, "out")
+EXAMPLES_PATH        = os.path.join(OUT_FOLDER, 'Examples')
+EXAMPLES_PLOTS_PATH  = os.path.join(EXAMPLES_PATH, 'Plots')
+DENSITY_PLOTS_PATH   = os.path.join(EXAMPLES_PLOTS_PATH, 'Density_Plots')
+HISTOGRAM_PLOTS_PATH = os.path.join(EXAMPLES_PLOTS_PATH, 'Histogram_Plots')
+
+
 # /trash/ folder for the testing (ignored in the repository)
 TRASH_FOLDER = os.path.join(cwd, "trash")
 

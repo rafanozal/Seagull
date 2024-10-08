@@ -8,6 +8,16 @@
 # ----------------------------------------------------
 
 
+# General libraries
+import numpy as np
+import matplotlib.pyplot      as plt
+import matplotlib.patheffects as PathEffects
+import matplotlib.colors as mcolors           # Import the mathplot colors
+import random
+import string
+
+# Import the auxiliary libraries
+import lib.color_manager as mypaint           # Import the color manager
 
 class Plot:
 
@@ -46,6 +56,8 @@ class Plot:
         display_info: Prints information about the car.
     """
 
+
+
     # Imported methods
     #
     # ---- String representations
@@ -62,9 +74,9 @@ class Plot:
     # Constructor
     # ----------------------------------
 
-    def __init__(self, folder_path, filename = None):
+    def __init__(self, folder_path = None, filename = None):
 
-        self.folder_path: str = folder_path        # Where in this the image for this plot is stored, this is a folder
+        self.folder_path:str  = folder_path        # Where in this the image for this plot is stored, this is a folder
 
         self.type:str         = ""                 # What type of plot it is (e.g. "scatter", "histogram", etc)
 
@@ -79,7 +91,8 @@ class Plot:
         # Figure
         # ------------------------------------------
 
-        self.figure            = None              # Initialize the figure to the default
+        self.figure            = None              # Initialize the figure to the default (fig)
+        self.axes              = None              # Initialize the axes object (ax)
         self.figure_width:int  = 15                # W and H size of the figure
         self.figure_height:int = 10
 
@@ -93,6 +106,37 @@ class Plot:
         self.label_x_axys:str     = ""
         self.label_legend:str     = ""
         
+        # ------------------------------------------
+        # Theme
+        # by default is the "white" theme option
+        # ------------------------------------------
+        #     Name
+        self.theme_name = "white"
+        #     Background color
+        self.theme_background_color = mypaint.color_to_hex("white")
+        self.theme_background_alpha = 0.0
+        #     Axys X and Y Line color
+        self.theme_axys_line_color  = mypaint.color_to_hex("black")
+        self.theme_axys_line_alpha  = 1.0
+        #     Axys X and Y Major breaks color
+        self.theme_x_major_breaks_color = mypaint.color_to_hex("white")
+        self.theme_y_major_breaks_color = "0.7"
+        self.theme_x_major_breaks_alpha = 0.0
+        self.theme_y_major_breaks_alpha = 1.0
+        #     Legend position
+        self.theme_legend_position    = "right"
+        #     Ticks size in both X and Y
+        self.theme_ticks_size         = 3
+        #     Font size for ticks
+        self.theme_ticks_x_font_size  = 12
+        self.theme_ticks_y_font_size  = 12
+        #     Inner panel border
+        self.theme_inner_panel_border_color = mypaint.color_to_hex("black")
+        self.theme_inner_panel_border_alpha = 1.0
+        
+
+        
+
 
     # ----------------------------------
     # Plots updates
@@ -101,6 +145,10 @@ class Plot:
     def update_figure(self):
         pass
     def automatic_size(self):
+        pass    
+    def automatic_titles(self):
+        pass
+    def show_extra_info(self):
         pass
 
     # ----------------------------------
@@ -108,6 +156,16 @@ class Plot:
     # ----------------------------------
     __str__ = custom_str_method
 
+    # ----------------------------------
+    # Show the plot
+    # ----------------------------------
+    
+    # Show the plot using the matplotlib library
+    def show(self):
+        self.update_figure()
+        self.figure.show()
+        plt.show()
+    
     # ----------------------------------
     # Saving the plot in disk
     # ----------------------------------
@@ -132,3 +190,88 @@ class Plot:
             print("TODO:Save the TXTs")
         if(saveHTML):
             print("TODO:Save the HTMLs")
+
+    # ----------------------------------
+    # Themes of a plot
+    # ----------------------------------
+    def set_theme(self, theme:str):
+        
+        if(theme=="white"):
+
+            #     Name
+            self.theme_name = "white"
+            #     Background color
+            self.theme_background_color = mcolors.white
+            self.theme_background_alpha = 0.0
+            #     Axys X and Y Line color
+            self.theme_axys_line_color  = mcolors.black
+            self.theme_axys_line_alpha  = 1.0
+            #     Axys X and Y Major breaks color
+            self.theme_x_major_breaks_color = mcolors.white
+            self.theme_y_major_breaks_color = "0.7"
+            self.theme_x_major_breaks_alpha = 0.0
+            self.theme_y_major_breaks_alpha = 1.0
+            #     Legend position
+            self.theme_legend_position    = "right"
+            #     Ticks size in both X and Y
+            self.theme_ticks_size         = 3
+            #     Font size for ticks
+            self.theme_ticks_x_font_size  = 12
+            self.theme_ticks_y_font_size  = 12
+            #     Inner panel border
+            self.theme_inner_panel_border_color = mcolors.black        
+            self.theme_inner_panel_border_alpha = 1.0
+
+        elif(theme=="no-grid"):
+
+            #     Name
+            self.theme_name = "no-grid"
+            #     Background color
+            self.theme_background_color = mcolors.white
+            self.theme_background_alpha = 0.0
+            #     Axys X and Y Line color
+            self.theme_axys_line_color  = mcolors.black
+            self.theme_axys_line_alpha  = 0.0
+            #     Axys X and Y Major breaks color
+            self.theme_x_major_breaks_color = mcolors.white
+            self.theme_y_major_breaks_color = "0.7"
+            self.theme_x_major_breaks_alpha = 0.0
+            self.theme_y_major_breaks_alpha = 0.0
+            #     Legend position
+            self.theme_legend_position    = "right"
+            #     Ticks size in both X and Y
+            self.theme_ticks_size         = 0
+            #     Font size for ticks
+            self.theme_ticks_x_font_size  = 0
+            self.theme_ticks_y_font_size  = 0
+            #     Inner panel border
+            self.theme_inner_panel_border_color = mcolors.black        
+            self.theme_inner_panel_border_alpha = 0.0
+
+        else:
+            print("WARNING!: Theme " + theme + " not found")
+            print("         : Using default theme 'white'")
+
+            #     Name
+            self.theme_name = "white"
+            #     Background color
+            self.theme_background_color = mcolors.white
+            self.theme_background_alpha = 0.0
+            #     Axys X and Y Line color
+            self.theme_axys_line_color  = mcolors.black
+            self.theme_axys_line_alpha  = 1.0
+            #     Axys X and Y Major breaks color
+            self.theme_x_major_breaks_color = mcolors.white
+            self.theme_y_major_breaks_color = "0.7"
+            self.theme_x_major_breaks_alpha = 0.0
+            self.theme_y_major_breaks_alpha = 1.0
+            #     Legend position
+            self.theme_legend_position    = "right"
+            #     Ticks size in both X and Y
+            self.theme_ticks_size         = 3
+            #     Font size for ticks
+            self.theme_ticks_x_font_size  = 12
+            self.theme_ticks_y_font_size  = 12
+            #     Inner panel border
+            self.theme_inner_panel_border_color = mcolors.black        
+            self.theme_inner_panel_border_alpha = 1.0

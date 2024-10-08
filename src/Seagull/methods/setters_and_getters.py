@@ -29,6 +29,10 @@ def nrow(self):
     return self.totalRows
 getTotalRows = nrow # alias
 
+# Name
+def getName(self):
+    return self.name
+
 
 # -----------------------------------------------------------------------------
 # SETTERS

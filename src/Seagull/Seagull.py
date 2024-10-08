@@ -3,6 +3,7 @@ import numpy as np
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 import pandas as pd
+import datetime
 
 # Main class declaration
 class Seagull:
@@ -67,7 +68,7 @@ class Seagull:
     # ---- Setters and getters
     from .methods.setters_and_getters import (
         getData, getPanda, 
-        ncol, nrow, 
+        ncol, nrow, getName,
         getTotalColumns, getTotalRows, 
         setTotalRows, setTotalColumns,
         setData
@@ -78,7 +79,7 @@ class Seagull:
     #      Get information regarding different aspects of the data; but never modify it.
     from .methods.data_read import (
         getColumnNames, getColumnName, getColumnIndex,
-        getColumn, c, 
+        getColumn, c, getValues,
         getRowsNames, getRowName, getRowIndex,
         getRow, r,
         getColumnTypes,
@@ -141,7 +142,7 @@ class Seagull:
     
     # An empty dataframe of given dimensions:
     # > myDF = Seagull(6,3)
-    def __init__(self, total_rows:int = 3, total_columns:int = None, dtypes = None, suppress_warnings:bool = False):
+    def __init__(self, total_rows:int = 3, total_columns:int = None, dtypes = None, suppress_warnings:bool = False, name = None):
 
         """
         Constructor for the Seagull object.
@@ -189,6 +190,11 @@ class Seagull:
         else:
             was_columns_provided_explicitly = True
         
+        # Give the dataframe a name if none was provided
+        if(name == None):
+            name = "DataFrame_" + str(total_rows) + "_" + str(total_columns) + "_" + datetime.datetime.now().strftime("%Y%m%d%H%M%S")
+        self.name = name
+
         # Check that the types makes sense with dimensions
         my_final_dtypes = None
         if(dtypes == None):

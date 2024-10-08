@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+import pandas as pd
+
 '''
 
 This file contain the methods that read information from the dataframe
@@ -25,10 +27,13 @@ def getColumnIndex(self, column_name):
     return(self.data.columns.get_loc(column_name))
 
 # Return the whole column
-def getColumn(self, index):
+def getColumn(self, index) -> pd.Series:
     return self.data.iloc[ :  , index ]
 def c(self, index):
     return self.data.iloc[ :  , index ]
+
+def getValues(self, index):
+    return self.data.iloc[ :  , index ].to_numpy()
 
 # Get the data types of the columns
 def getColumnTypes(self):
