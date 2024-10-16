@@ -50,7 +50,7 @@ def main():
         my_df[1,"A"] = 2
         my_df[1,"B"] = 2.0
         my_df[1,"C"] = "two"
-        my_df[1,"D"] = pd.to_datetime('02/20/2002')
+        my_df[1,"D"] = pd.to_datetime('02/20/2002') # <---- Notice that there are several D columns
 
         print(my_df)
 
@@ -135,9 +135,6 @@ def main():
 
         # Take a look inside
         print(my_df)
-        print(my_df.print_all_data())
-
-
 
         # Reading data in several ways
 
@@ -172,7 +169,7 @@ def main():
         my_value_05 = my_df[1,"A"]
         my_value_06 = my_df[1,"B"]
         my_value_07 = my_df[1,"C"]
-        my_value_08 = my_df[1,"D"]
+        my_value_08 = my_df[1,"D"] # <-- Notice that there are several D columns, this doesn't return a value, but a panda dataframe
 
         print(my_value_05)
         print(my_value_06)
@@ -180,7 +177,7 @@ def main():
         print(my_value_08)
 
         # (3) By index and bool list
-
+        
         print("---------------------------------------------------------------")
         print(" 3.- By index and bool list")
         print("---------------------------------------------------------------")

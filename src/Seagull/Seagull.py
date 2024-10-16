@@ -56,9 +56,10 @@ class Seagull:
 
     """
 
+    # -------------------------------------------------
+    # IMPORTED METHODS
+    # -------------------------------------------------
 
-    # Imported methods
-    
     # ---- Panda series, for the constructor and casting
     from .methods.panda_series import create_series, generate_random_date
 
@@ -68,21 +69,36 @@ class Seagull:
     # ---- Setters and getters
     from .methods.setters_and_getters import (
         getData, getPanda, 
-        ncol, nrow, getName,
-        getTotalColumns, getTotalRows, 
+        nrow, getName,
+        getTotalRows, 
         setTotalRows, setTotalColumns,
         setData
     )
 
-    # ---- Data Reading
+    # -------------------------------------------------
+    #     Data reading
+    # -------------------------------------------------
     #
-    #      Get information regarding different aspects of the data; but never modify it.
+    #     Dataframe information
+    from .methods.frame_read_frame_info import (get_name)
+
+    #     Columns   information
+    from .methods.frame_columns_info import (
+        get_column_types,
+        get_column_names, get_column_name, get_total_column_name,
+        get_column_index, get_columns_location,
+        ncol, get_total_columns
+        )
+    
+    #     Rows      information
+    #     Cell      information
+
+
+    #      Columns data
     from .methods.data_read import (
-        getColumnNames, getColumnName, getColumnIndex,
-        getColumn, c, getValues,
+        getColumn, c, get_column_values,
         getRowsNames, getRowName, getRowIndex,
         getRow, r,
-        getColumnTypes,
         isCategorical, isCharacter, isNumerical,
         isFloat, isInt, isString, isBool, isBoolean,
         getCategories
@@ -100,28 +116,71 @@ class Seagull:
     #      From a given list of files, get a bunch of Seagull objects in return
     from .methods.data_loading import loadFromCSV
 
-    # ---- Data manipulation
+    # -------------------------------------------------
+    #     Data manipulation
+    # -------------------------------------------------
+    #
+    #     Dataframe information
+    #     Columns   information
+    #     Row       information
+    #     Cell      information
+    #
+    #     Dataframe values
+    #          - Normalization
+    #          - Randomization
+    #          - Transposition
+    #          - Round
+    #          - Zeroes
+    #          - Renaming
+    #
+    #     Column values
+    #          - Normalization
+    #          - Randomization
+    #          - Casting
+    #          - Round
+    #          - Deletion
+    #          - Zeroes
+    #          - Renaming
+    #
+    #     Row values
+    #          - Normalization
+    #          - Deletion
+    #          - Renaming
+    #
+    #     Cell values
+
     from .methods.data_manipulation import (
-        rename_columns, renameColumns, setColumnsNames,
-        rename_column, renameColumn, setColumnName,
-        rename_rows, renameRows, setRowsNames,
-        rename_row, renameRow, setRowName,
-        setColumnZeroes,
+        set_column_zeroes,
         round_column, round,
-        normalize, normalize_column, normalize_columns,
-        normalize_row, normalize_rows
+        delete_column, drop_column,
+        transpose
 
     )
 
+    #     Normalization
+    from .methods.data_normalization import (
+        normalize,
+        normalize_column, normalize_columns,
+        normalize_row,    normalize_rows
+    )
+
+    #     Randomization
+    from .methods.data_randommize import zero, randomize, randomize_categorical
+
+    #     Renaming
+    from .methods.frame_renaming import (
+        rename_columns, renameColumns, setColumnsNames,
+        rename_column, renameColumn, setColumnName,
+        rename_rows, setRowsNames,
+        rename_row, set_row_name,
+        rename_frame, set_name
+
+    )
 
     # ---- Data casting
     from .methods.data_casting    import columnToInteger, columnToFloat, columnToCategory, columnToString
 
-    # ---- Data randomization
-    from .methods.data_randommize import zero, randomize, randomize_categorical
-
-    # ---- Data normalization
-    #      Normalize by either rows or columns
+    
 
     # ---- Data filtering
     from .methods.data_filtering  import keepColumnTopValues, keepColumnByValue, countByValue
@@ -343,17 +402,37 @@ class Seagull:
         indexRow    = None
         indexColumn = None
 
-        #print("KEY: ", key)
+        #print("KEY:   ", key)
         #print("VALUE: ", value)
+        #print("TYPE:  ", type(key))
         #print("-----------------")
 
         # Check if the key is a string
         # my_df["my_column_name"]
         if isinstance(key, str):
 
+            # If the column/row is a string we need to figure out how many have the same name:
+            #
+            # Zero columns
+            # One column
+            # Several columns
+
+            total_instances = self.get_total_column_name(key)
+
+            # If the column doesn't exist, that's a problem
+            if(total_instances == 0):
+                print("ERROR: Column name ["+str(key)+"] not found.")
+
             # Setup the row to the complete slide, and the column to whatever index
-            indexRow    = slice(None)
-            indexColumn = self.getColumnIndex(key)
+            elif(total_instances == 1):
+                indexRow    = slice(None)
+                indexColumn = self.getColumnIndex(key)
+
+            # If there are several columns with the same name, we need to figure out which one
+            else:
+                indexRow    = slice(None)
+                indexColumn = self.get_columns_location(key)
+
 
         # Check if the key is a tuple and if one of the elements is a string
         # my_df[ 1 , "my_column_name"]
@@ -374,17 +453,47 @@ class Seagull:
                 # String + String
                 if (isinstance(row_key, str)):
 
-                    # Find by row name (weird, but ok)
-                    indexRow    = self.getRowIndex(row_key)
-                    indexColumn = self.getColumnIndex(col_key)
-
                     
+                    # Find by row name (weird, but ok)
+                    total_instances = self.get_total_column_name(col_key)
+
+                    # If the column doesn't exist, that's a problem
+                    if(total_instances == 0):
+                        print("ERROR: Column name ["+str(col_key)+"] not found.")
+
+                    # Setup the row to the complete slide, and the column to whatever index
+                    elif(total_instances == 1):
+
+                        indexRow    = self.getRowIndex(row_key)
+                        indexColumn = self.getColumnIndex(col_key)
+
+                    # If there are several columns with the same name, we need to figure out which one
+                    else:
+                        indexRow    = self.getRowIndex(row_key)
+                        indexColumn = self.get_columns_location(col_key)
+
+
                 # Slide  + String
                 elif(isinstance(col_key, str)):
 
                     # Wether is a single number or a slide, we keep the row_key as it is
-                    indexRow    = row_key
-                    indexColumn = self.getColumnIndex(col_key)
+                    total_instances = self.get_total_column_name(col_key)
+
+                    # If the column doesn't exist, that's a problem
+                    if(total_instances == 0):
+                        print("ERROR: Column name ["+str(col_key)+"] not found.")
+
+                    # Setup the row to the complete slide, and the column to whatever index
+                    elif(total_instances == 1):
+
+                        indexRow    = row_key
+                        indexColumn = self.getColumnIndex(col_key)
+
+                    # If there are several columns with the same name, we need to figure out which one
+                    else:
+
+                        indexRow    = row_key
+                        indexColumn = self.get_columns_location(col_key)
 
                     # indexColumn might be a [False False False  True  True False  True] type of list,
                     # that is fine and will be corrected later
@@ -559,9 +668,27 @@ class Seagull:
         # my_df["my_column_name"]
         if isinstance(key, str):
 
+            # If the column/row is a string we need to figure out how many have the same name:
+            #
+            # Zero columns
+            # One column
+            # Several columns
+
+            total_instances = self.get_total_column_name(key)
+
+            # If the column doesn't exist, that's a problem
+            if(total_instances == 0):
+                print("ERROR: Column name ["+str(key)+"] not found.")
+
             # Setup the row to the complete slide, and the column to whatever index
-            indexRow    = slice(None)
-            indexColumn = self.getColumnIndex(key)
+            elif(total_instances == 1):
+                indexRow    = slice(None)
+                indexColumn = self.getColumnIndex(key)
+
+            # If there are several columns with the same name, we need to figure out which one
+            else:
+                indexRow    = slice(None)
+                indexColumn = self.get_columns_location(key)            
 
         # Check if the key is a tuple and if one of the elements is a string
         # my_df[ 1 , "my_column_name"]
@@ -583,16 +710,46 @@ class Seagull:
                 if (isinstance(row_key, str)):
 
                     # Find by row name (weird, but ok)
-                    indexRow    = self.getRowIndex(row_key)
-                    indexColumn = self.getColumnIndex(col_key)
+                    total_instances = self.get_total_column_name(col_key)
+
+                    # If the column doesn't exist, that's a problem
+                    if(total_instances == 0):
+                        print("ERROR: Column name ["+str(col_key)+"] not found.")
+
+                    # Setup the row to the complete slide, and the column to whatever index
+                    elif(total_instances == 1):
+
+                        indexRow    = self.getRowIndex(row_key)
+                        indexColumn = self.getColumnIndex(col_key)
+
+                    # If there are several columns with the same name, we need to figure out which one
+                    else:
+                        indexRow    = self.getRowIndex(row_key)
+                        indexColumn = self.get_columns_location(col_key)
 
                     
                 # Slide  + String
                 elif(isinstance(col_key, str)):
 
                     # Wether is a single number or a slide, we keep the row_key as it is
-                    indexRow    = row_key
-                    indexColumn = self.getColumnIndex(col_key)
+                    total_instances = self.get_total_column_name(col_key)
+
+                    # If the column doesn't exist, that's a problem
+                    if(total_instances == 0):
+                        print("ERROR: Column name ["+str(col_key)+"] not found.")
+
+                    # Setup the row to the complete slide, and the column to whatever index
+                    elif(total_instances == 1):
+
+                        indexRow    = row_key
+                        indexColumn = self.getColumnIndex(col_key)
+
+                    # If there are several columns with the same name, we need to figure out which one
+                    else:
+
+                        indexRow    = row_key
+                        indexColumn = self.get_columns_location(col_key)
+
 
                     # indexColumn might be a [False False False  True  True False  True] type of list,
                     # that is fine and will be corrected later

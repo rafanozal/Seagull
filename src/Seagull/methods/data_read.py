@@ -2,6 +2,8 @@
 
 import pandas as pd
 
+
+
 '''
 
 This file contain the methods that read information from the dataframe
@@ -14,30 +16,14 @@ Non of these methods should change the dataframe in any way.
 # Columns
 # ---------------------------------
 
-# Get the columns names
-def getColumnNames(self):
-    return(self.data.columns).to_list()
-
-# Get ONE column names
-def getColumnName(self, columnIndex):
-    return(self.data.columns).to_list()[columnIndex]
-
-# For a given column name, return the first index
-def getColumnIndex(self, column_name):
-    return(self.data.columns.get_loc(column_name))
-
 # Return the whole column
 def getColumn(self, index) -> pd.Series:
     return self.data.iloc[ :  , index ]
 def c(self, index):
     return self.data.iloc[ :  , index ]
 
-def getValues(self, index):
+def get_column_values(self, index):
     return self.data.iloc[ :  , index ].to_numpy()
-
-# Get the data types of the columns
-def getColumnTypes(self):
-    return self.data.dtypes.to_list()
 
 
 # Check if the column is categorical

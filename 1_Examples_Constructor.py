@@ -103,9 +103,28 @@ def main():
     print(my_seagull_dF)
 
     print("---------------------------------------------------------------")
+    print(" 9.- Creating from CSV file")
+    print("---------------------------------------------------------------")
+    print()    
+
+    my_dF = Seagull()
+    my_dF.loadFromCSV(csv_path = "datasets/iris_dataset.csv")
+    print(my_dF.str_overview())
+
+
+    # This has nothing to do with constructors
+    # Move to another file
+    print("---------------------------------------------------------------")
     print(" 9.- Transposing")
     print("---------------------------------------------------------------")
     print()    
+
+    my_dF = Seagull(5,4)
+    my_dF.randomize()
+    my_dF.round()
+    print(my_dF)
+    my_dF.transpose()
+    print(my_dF)
 
 if __name__ == "__main__":
     main()

@@ -15,11 +15,12 @@ from ...Seagull import Seagull
 class V1Plot(Plot):
 
     # Default constructor
-    def __init__(self, folder_path = None, filename = None):
+    def __init__(self, **kwargs):
+        
         # -----------------------------------------
         # Do the parent constructor first
         # -----------------------------------------
-        super().__init__(folder_path, filename)
+        super().__init__(**kwargs)  # Pass common parameters to the parent constructor
 
         # -----------------------------------------
         # Update the parent class attributes second
@@ -28,10 +29,7 @@ class V1Plot(Plot):
         # Plot type
         self.type = "V1 Plot"
 
-        # Update filename, if none was given, use the HorizontalBarplot as default
-        if(self.filename == None):
-            self.filename = "V1_Plot"
-
         # -----------------------------------------
         # Set the current class attributes last
         # -----------------------------------------
+        self.data_x = None

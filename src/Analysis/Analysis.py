@@ -24,6 +24,9 @@ class Analysis:
 
     2. Numerical Data
 
+        Numerical univariate:
+
+            
         Numerical with Numerical:
             Correlation Analysis (e.g., Pearson, Spearman): Measures the strength and direction of the relationship between two numerical variables.
             Regression Analysis:
@@ -57,16 +60,22 @@ class Analysis:
     """
 
     # Imported methods
+    # ---- Setters and getters
+    from .methods.setters_getters import (
+        set_folder_path, get_folder_path,
+        set_filename, get_filename
+    )
+
     # ---- String representations
     from .methods.strings_representations import external_str_method
     # ---- Static methods
-    from .methods.statics_methods import p_value_to_significance, normality
+    from .methods.statics_methods import p_value_to_significance, normality, kolmogorov_smirnov, anderson_darling
 
     # -------------------------------------------------
     # Constructor
     # -------------------------------------------------
 
-    def __init__(self, folder_path = None, filename = "No_File_Name"):
+    def __init__(self, folder_path = None, filename = None):
         
         # ---------------------------------------------------------------------
         # Where is this analysis saved and how it is called
@@ -158,7 +167,22 @@ class Analysis:
 
                     # Load the HTML template
                     html_template  = ""
-                    html_file_path = constants.HTML_NUMERICAL_CATEGORICAL_TEMPLATE
+                    html_file_path = None
+                    # Depending on the type of analysis, load the approapiate template
+                    #
+                    # Numerical Univariate
+                    if(self.type == "Numerical Univariate"):
+                        html_file_path = constants.HTML_NUMERICAL_UNIVARIATE_TEMPLATE
+                    # Numerical Categorical
+                    elif(self.type == "Numerical Categorical"):
+                        html_file_path = constants.HTML_NUMERICAL_CATEGORICAL_TEMPLATE
+                    # Uknown type (error)
+                    else:
+                        print()
+                        print(" I have no idea of the subtype of analysis we have")
+                        print(" Type: ", self.type)
+                        print()
+                    
                     with open(html_file_path, 'r', encoding='utf-8') as file:
                         html_template = file.read()
 
@@ -188,14 +212,20 @@ class Analysis:
                 print(">>> myAnalysis.save(saveTXT  = True)")                
                 print("or")
                 print(">>> myAnalysis.save(saveHTML = True)")                
+                print()
 
                 return(-2,None)                
         else:
-            print("Can't save the analysis if you don't give a folder path first")
+            print("I can't save the analysis if you don't give a folder path first")
+            print("The current folder path is set to None.")
             print()
-            print("Is not mandatory to have a folder defined!")
+            print("Is not mandatory to have a folder defined,")
+            print("You can still do the analysis and extract the information")
+            print("But you can't save it into disk without a folder path")
             print()
-            print("it protect you from saving the report accidentally")
-            print("Which can be annoying if you are doing 1000s of analysis in a loop")
-
+            print("Notice that it protect you from saving the report accidentally")
+            print("into the current woring directory by default")
+            print("This can be annoying if you are doing 1000s of analysis in a loop,")
+            print("which will end up with 1000s of accidental folders in your working directory")
+            print()
             return(-1,None)

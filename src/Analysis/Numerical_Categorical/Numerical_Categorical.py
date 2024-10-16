@@ -6,8 +6,6 @@ This file contain the implementation of the plot class: NUMERICAL_CATEGORICAL
 
 # General libraries
 import numpy as np
-import random
-import string
 import datetime
 
 from scipy import stats

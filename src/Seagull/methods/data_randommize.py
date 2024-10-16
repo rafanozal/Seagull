@@ -133,9 +133,6 @@ def randomize_categorical(self, n = 5, sl = 10):
 # Randomize single columns to...
 # --------------------------------------------------
 
-# 
-
-
 
 #      Randomize the data following the same distribution for each column
 #      Induce an error in each datacell of a 5% (default) in order to avoid indivual datapoints identifications

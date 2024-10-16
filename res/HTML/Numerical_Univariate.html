@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analysis Report</title>
+    <style>
+        {{CSS_style}}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>{{type}}</h1>
+
+        <p><strong>Table Name:         </strong> {{tablename}}                               </p>
+        <p><strong>Variable Name:      </strong> {{data_x_name}}   , (n = {{sample_size}}  ) </p>
+
+        <!-- Main plots -->
+
+        <div class="container_main_image_numerical_univariate">
+
+            <div class="container_main_image_row">
+
+                <div class="container_main_image_cell_left">
+                    <img id="image_numerical_univariate_left"  src="main_density_plot.png" alt="Density Plot">
+                </div>
+
+                <div class="container_main_image_cell_right">
+                    <img id="image_numerical_univariate_right" src="main_qq_plot.gif"      alt="QQ Plot">
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Descriptive table -->
+
+        <section class="percentile_table">
+            <!-- Row title -->
+            <main class="percentile_row percentile_title">
+                <ul>
+                    <li>Min</li>
+                    <li>p05</li>
+                    <li>p25</li>
+                    <li>Median</li>
+                    <li>p75</li>
+                    <li>p95</li>
+                    <li>Max</li>
+                </ul>
+            </main>
+            <!-- Data Row -->
+            <article class="percentile_row">
+                <ul>
+                    <li>{{min}}</li>
+                    <li>{{p05}}</li>
+                    <li>{{p25}}</li>
+                    <li>{{median}}</li>
+                    <li>{{p75}}</li>
+                    <li>{{p95}}</li>
+                    <li>{{max}}</li>
+                </ul>
+            </article>
+        </section>
+
+        <hr style="width:50%">
+        
+        <h2>Details</h2>
+        <p><strong>Folder Path:     </strong> {{folder_path}}      </p>
+        <p><strong>Filename:        </strong> {{filename}}         </p>
+        <p><strong>Last Updated:    </strong> {{lastUpdate_human}} </p>
+
+
+    </div>
+</body>
+</html>

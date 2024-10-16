@@ -75,6 +75,9 @@ def set_iris(self):
     self.totalColumns = df_n_columns
     self.data         = pd.DataFrame(index=range(df_n_rows),columns=range(df_n_columns))
 
+    # Give the name to the object
+    self.name = "Iris dataset"
+
     # Init the numerical data
     for i in range(df_n_rows):
         for j in range(df_n_columns-1):
@@ -365,6 +368,11 @@ def get_spotify_datasets(cls):
 
             # Update the total number of songs for the artist
             artistsDF[k,2] += 1
+
+    # Set the names of each dataset
+    artistsDF.name   = "Artists dataset"
+    songsDF.name     = "Songs dataset"
+    composersDF.name = "Composers dataset"
 
     # Return the three datasets
     return [artistsDF, songsDF, composersDF]

@@ -10,9 +10,17 @@ DATASET_FOLDER_PATH = os.path.join(cwd, "datasets")
 SPOTIFY_PATH        = os.path.join(DATASET_FOLDER_PATH, 'spotify-2023.csv')
 IRIS_PATH           = os.path.join(DATASET_FOLDER_PATH, 'iris_dataset.csv')
 
-# /out/ folder for the examples
+# /out/
 OUT_FOLDER           = os.path.join(cwd, "out")
+# /out/Examples/
 EXAMPLES_PATH        = os.path.join(OUT_FOLDER, 'Examples')
+
+# /out/Examples/Analysis/
+EXAMPLES_ANALYSIS_PATH = os.path.join(EXAMPLES_PATH, 'Analysis')
+# /out/Examples/Analysis/Numerical_Univariate/
+EXAMPLES_ANALYSIS_NUMERICAL_UNIVARIATE_PATH = os.path.join(EXAMPLES_ANALYSIS_PATH, 'Numerical_Univariate')
+
+# /out/Examples/Plots/
 EXAMPLES_PLOTS_PATH  = os.path.join(EXAMPLES_PATH, 'Plots')
 DENSITY_PLOTS_PATH   = os.path.join(EXAMPLES_PLOTS_PATH, 'Density_Plots')
 HISTOGRAM_PLOTS_PATH = os.path.join(EXAMPLES_PLOTS_PATH, 'Histogram_Plots')
@@ -28,6 +36,7 @@ CSS_SEAGULL_STYLE     = os.path.join(CSS_TEMPLATES_FOLDER, "Seagull_Style.css")
 
 HTML_TEMPLATES_FOLDER = os.path.join(RES_FOLDER, "HTML")
 HTML_NUMERICAL_CATEGORICAL_TEMPLATE = os.path.join(HTML_TEMPLATES_FOLDER, "Numerical_Categorical.html")
+HTML_NUMERICAL_UNIVARIATE_TEMPLATE  = os.path.join(HTML_TEMPLATES_FOLDER, "Numerical_Univariate.html")
 
 # Special characters
 # Emojis for HTML
@@ -46,3 +55,27 @@ FLOAT_ZERO       = 0.0
 STRING_ZERO      = '0'
 CATEGORICAL_ZERO = "Uknown"
 DATA_ZERO        = pd.NaT
+
+
+# Valid types
+BOOL_TYPES        = ["bool", "boolean", "Boolean", bool]
+
+INTEGER_TYPES     = ["int32", "int64", "Int32", "Int64",
+                     int, pd.Int8Dtype, pd.Int16Dtype, pd.Int32Dtype, pd.Int64Dtype,
+                     np.int32, np.int64]
+
+FLOAT_TYPES       = ["float32", "float64", "Float32", "Float64",
+                     float, pd.Float32Dtype, pd.Float64Dtype,
+                     np.float32, np.float64]
+
+STRING_TYPES      = ["str", "string", "String", "object",
+                     str, pd.StringDtype]
+
+CATEGORICAL_TYPES = ["categorical", "Categorical", "object", "category",
+                     pd.CategoricalDtype]
+
+DATE_TYPES        = ["datetime64", "datetime64[ns]", "datetime64[ns, UTC]",
+                     pd.DatetimeTZDtype, pd.Timestamp]
+
+NUMERICAL_TYPES   = INTEGER_TYPES + FLOAT_TYPES
+ALL_TYPES         = BOOL_TYPES + INTEGER_TYPES + FLOAT_TYPES + STRING_TYPES + CATEGORICAL_TYPES + DATE_TYPES

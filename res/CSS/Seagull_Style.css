@@ -18,6 +18,98 @@ p {
     margin: 10px 0;
 }
 
+
+/* ------------------------------------------------------------------------- */
+/* IMAGES */
+/* ------------------------------------------------------------------------- */
+
+/* ------------------------------------------------------------------------- */
+/*      Numerical Univariate */
+/* ------------------------------------------------------------------------- */
+
+.container_main_image_numerical_univariate {
+    display: flex;
+    width:   100%;
+    background-color: yellow;
+}
+
+.container_main_image_row {
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+
+    -webkit-box-orient: horizontal; 
+    -moz-box-orient: horizontal;
+    box-orient: horizontal;
+    flex-direction: row;
+
+    -webkit-box-pack: center;
+    -moz-box-pack: center;
+    box-pack: center;
+    justify-content: center;
+
+    -webkit-box-align: stretch;
+    -moz-box-align: stretch;
+    box-align: stretch;  
+    align-items: stretch; /* Ensures that the child elements fill the container */
+
+    background-color: rgb(150, 150, 150);
+}
+
+.container_main_image_cell_left {
+
+    flex: 3; /* 75% */
+
+    padding: 0px;
+    margin:  0px;
+
+    background-color: rgba(27, 0, 163, 0);
+    border: 1px solid rgb(0, 0, 0);
+    text-align: center;
+    
+    display: flex;
+    align-items: center; /* Centers the image vertically */
+    justify-content: center; /* Centers the image horizontally */
+
+}
+
+.container_main_image_cell_right {
+
+    flex: 1; /* 25% */
+
+    padding: 0px;
+    margin:  0px;
+
+    background-color: #f0f0f0;
+    border: 1px solid rgb(0, 0, 0);
+    text-align: center;
+    
+    display: flex;
+    align-items: center; /* Centers the image vertically */
+    justify-content: center; /* Centers the image horizontally */
+
+}
+
+.container_main_image_numerical_univariate img {
+    height:     auto;
+    width:      auto;
+    max-width:  100%;
+    max-height: 100%; /* Ensures the image does not exceed the container's height */
+}
+
+#image_numerical_univariate_left {
+
+    flex: 3; /* 75% */
+}
+#image_numerical_univariate_right {
+
+    flex: 1; /* 25% */
+}
+
+
+
 /* ------------------------------------------------------------------------- */
 /* TABLES */
 /* ------------------------------------------------------------------------- */
@@ -49,3 +141,60 @@ p {
   font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
 
 
+
+/* ------------------------------------------------------------------------- */
+/*      Percentile table                                                     */
+/* ------------------------------------------------------------------------- */
+
+/* Google fonts - Open Sans */
+/*@import url(https://fonts.googleapis.com/css?family=Open+Sans:400,700);*/
+
+.percentile_table {
+    width:      100%;
+    max-width:  2000px;
+    margin:     20px auto;
+    padding:    0;
+    background: rgb(69, 69, 69);
+    overflow:   hidden;
+    position:   relative;
+
+    color:       #333;
+    font-family: 'Open Sans', sans-serif;
+}
+
+.percentile_row ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    /*justify-content: space-around;*/
+    justify-content: space-between; /* Adjusted to space-between for even spacing */
+}
+
+.percentile_row ul li {
+    padding: 15px;
+    box-sizing: border-box;
+    text-align: center;
+    /*flex-grow: 1;*/
+    flex: 1; /* This ensures each <li> takes an equal portion of the space */
+    border-left: 1px solid #333; /* Add left border to all li */
+}
+
+
+/*.percentile_row ul li:first-child {
+    border-left: none; /* Remove left border for the first li} */
+
+.percentile_row ul li:last-child {
+    border-right: 1px solid #333; /* Add right border only to the last li */
+}
+
+.percentile_title ul li {
+    /*font-weight: bold;*/
+    background:  #cecece;
+}
+
+.percentile_row {
+    background:     #f5f5f5;
+    border-top:     1px solid #333;
+    border-bottom:  1px solid #333;
+}

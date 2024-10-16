@@ -1,36 +1,35 @@
-import pandas as pd
+#%%
+import matplotlib.pyplot as plt
 import numpy as np
 
-# Set the random seed for reproducibility
-np.random.seed(0)
+# Sample data: a list of numbers
+data = np.random.random_sample((100,))
 
-# Create a DataFrame with random numeric data
-df = pd.DataFrame({
-    'A': np.random.rand(10),
-    'B': np.random.randint(1, 100, 10)
-})
+# Sort data to facilitate upward jittering
+data.sort()
 
-# Categorical data with missing values
-categories = ['Apple', 'Banana', 'Cherry', None, '', np.nan, pd.NA, 'Fig', 'Grape', 'Honeydew']
+# Initialize y-values at zero
+y_values = np.zeros(len(data))
 
-# Convert the list to a categorical Series
-df['Category'] = pd.Series(pd.Categorical(categories))
+# Define the minimum distance to avoid overlap
+min_distance = 0.01
 
-# Introduce different types of missing data
-df.loc[3, 'Category'] = None  # None
-df.loc[4, 'Category'] = ''    # Empty string
-df.loc[5, 'Category'] = np.nan  # NaN
+# Apply jitter: move points up only if they overlap
+for i in range(1, len(data)):
+    if data[i] == data[i - 1]:
+        y_values[i] = y_values[i - 1] + min_distance
 
-# Print the DataFrame
-print(df)
+# Create a scatter plot with flipped axes
+plt.figure(figsize=(2, 8))  # Adjusted figure size for vertical layout
+plt.scatter(y_values, data, alpha=0.5)  # Swap x and y values
 
-print(type(np.nan))
+# Set plot labels and title
+plt.ylabel('Values')
+plt.title('One-Dimensional Scatter Plot with Upward Jitter')
 
-categories = ['Apple', 'Banana', 'Cherry', 'Fig', 'Grape', 'Honeydew', 'Kiwi', 'Lemon', 'Mango']
+# Remove x-axis as it's not meaningful in this context
+plt.xticks([])
 
-df.iloc[:, 2] = df.iloc[:, 2].cat.set_categories(categories, ordered=True)
-
-print(df)
-
-print(np.random.rand(100) )
-
+# Show the plot
+plt.show()
+# %%

@@ -68,13 +68,27 @@ class Plot:
     # ---- Setters and getters
     #
     #      Accessing and setting the attributes of the class.
-    from .methods.setters_and_getters import  get_figure, get_size, set_name, set_title, set_x_label, set_y_label, set_legend, set_size
+    from .methods.setters_and_getters import(
+        get_figure, get_size,
+        get_folder_path,
+        get_filename, 
+        set_folder_path,
+        set_filename, change_filename,
+        set_data_name, set_data_name_x, set_data_name_y, set_data_name_z,
+        set_title, set_subtitle,
+        set_x_label, set_y_label, set_legend,
+        set_size
+    )
 
     # ----------------------------------
     # Constructor
     # ----------------------------------
 
-    def __init__(self, folder_path = None, filename = None):
+    def __init__(self, folder_path = None, filename = None,
+                 plot_title   = None, plot_subtitle = None,
+                 plot_y_Label = None, plot_x_label  = None,
+                 plotLegend   = None,
+                 image_w_size = None, image_h_size = None):
 
         self.folder_path:str  = folder_path        # Where in this the image for this plot is stored, this is a folder
 
@@ -90,21 +104,41 @@ class Plot:
         # ------------------------------------------
         # Figure
         # ------------------------------------------
+        self.manual_size:bool  = False             # If someone changed the size manually
+
+        if(image_w_size == None):
+            self.figure_width  = 15
+        else:
+            self.manual_size   = True
+
+        if(image_h_size == None):
+            self.figure_width  = 10
+        else:
+            self.manual_size   = True
 
         self.figure            = None              # Initialize the figure to the default (fig)
         self.axes              = None              # Initialize the axes object (ax)
-        self.figure_width:int  = 15                # W and H size of the figure
-        self.figure_height:int = 10
+        self.figure_width:int  = image_w_size      # W and H size of the figure
+        self.figure_height:int = image_h_size
+
+        # ------------------------------------------
+        # Data
+        # ------------------------------------------
+        self.data_name     = "<Default data name>" # These are just defaults that you should never see
+        self.data_name_x   = "<X>"                 # The final instances of plots are the one responsible
+        self.data_name_y   = "<Y>"                 # for initiating and updating these values properly.
+        self.data_name_z   = "<Z>"
+        self.legend_name_z = "<Zelda>"
 
         # ------------------------------------------
         # Labels
         # ------------------------------------------
 
-        self.label_title:str      = ""             # Initialize the main labels to be empty
-        self.label_subtitle:str   = ""
-        self.label_y_axys:str     = ""
-        self.label_x_axys:str     = ""
-        self.label_legend:str     = ""
+        self.label_title:str      = plot_title     # Initialize the main labels to be empty (None) by default
+        self.label_subtitle:str   = plot_subtitle
+        self.label_y_axys:str     = plot_y_Label
+        self.label_x_axys:str     = plot_x_label
+        self.label_legend:str     = plotLegend
         
         # ------------------------------------------
         # Theme
@@ -133,10 +167,6 @@ class Plot:
         #     Inner panel border
         self.theme_inner_panel_border_color = mypaint.color_to_hex("black")
         self.theme_inner_panel_border_alpha = 1.0
-        
-
-        
-
 
     # ----------------------------------
     # Plots updates
@@ -174,6 +204,9 @@ class Plot:
     def save(self, savePNG = True, savePDF = True, saveSVG = True, saveTXT = False, saveHTML = False):
 
         self.update_figure()
+
+        # Tell where are you saving the plot
+        print("Saving... ", self.folder_path + "/" + self.filename + ".*")
 
         # For each of the possible formats, save the figure
         if(savePNG):

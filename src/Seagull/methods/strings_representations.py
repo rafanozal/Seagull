@@ -45,7 +45,7 @@ def str_overview(self, preview = 5):
     # We are going to save in this list the name of the columns
     # but we are going to add spaces to the right to make them
     # all the same size
-    columnsNormalized = self.getColumnNames()
+    columnsNormalized = self.get_column_names()
 
     # We are going to find the longest name
     longestName = 0
@@ -65,7 +65,7 @@ def str_overview(self, preview = 5):
     str_final = str_final + " Datatypes:    \n"
 
     # Update the types
-    myTypes = self.getColumnTypes()
+    myTypes = self.get_column_types()
 
     for i in range(self.totalColumns):
         str_final = str_final + "     " + str(i) + " | " + columnsNormalized[i] + " : " + str(myTypes[i]) + "\n"
