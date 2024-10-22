@@ -49,29 +49,6 @@ def isBool(self, index):
     return self.data.iloc[ :  , index ].dtype == "bool"
 isBoolean = isBool
 
-# If a column have categorical data, return the categories
-def getCategories(self, index):
-
-    return_categories = []
-
-    # If you try to run this on a non-categorical column, does nothing extra
-    if(self.isCategorical(index) == False):
-        print()
-        print("WARNING!: The column is not categorical")
-        print()
-
-    # Otherwise find the categories
-    else:
-
-        # If the column is actually a full categorical with levels
-        if(self.data.iloc[ :  , index ].dtype == 'category'):
-            return_categories = self.data.iloc[ :  , index ].cat.categories
-
-        # Otherwise, is just a colection of strings
-        else:
-            return_categories = self.data.iloc[ :  , index ].unique()
-
-    return (return_categories)
 
 # Check if the column is numerical
 def isNumerical(self, index):

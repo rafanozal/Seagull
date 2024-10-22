@@ -23,7 +23,7 @@ def get_column_types(self):
 # ---------------------------------
 
 # Get the columns names
-def get_column_names(self):
+def get_columns_names(self):
     return(self.data.columns).to_list()
 
 # Get ONE column names

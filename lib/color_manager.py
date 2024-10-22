@@ -4,6 +4,29 @@ import matplotlib.colors as mcolors
 import numpy as np
 import random
 
+
+def get_qualitative_colors(total):
+    """
+    Returns a list of qualitative colors from the Matplotlib 'tab10' colormap.
+    
+    Args:
+    total (int): Total number of colors to return.
+    
+    Returns:
+    list [string]: A list of colors in HEX code format.
+    """
+
+     # Get the tab10 colormap
+    cmap = plt.cm.get_cmap('tab10')
+    
+    # Generate the list of colors
+    colors = [cmap(i % 10) for i in range(total)]
+    
+    return colors
+
+    
+
+
 def get_colors(colormap_name, total):
     """
     Returns a list of colors from the specified Matplotlib colormap equally spaced.

@@ -5,6 +5,9 @@ import pandas as pd
 # Let's prepare the folder where to save the files
 # Root folder with everything inside
 cwd = os.getcwd()
+
+
+
 # /datasets/ with different toy datasets
 DATASET_FOLDER_PATH = os.path.join(cwd, "datasets")
 SPOTIFY_PATH        = os.path.join(DATASET_FOLDER_PATH, 'spotify-2023.csv')
@@ -47,7 +50,7 @@ EMOJI_CHECK_FAIL    = "\u274C"
 INTEGER_NAN     = np.nan
 FLOAT_NAN       = np.nan
 STRING_NAN      = np.nan
-CATEGORICAL_NAN = np.nan
+CATEGORICAL_NAN = pd.NA
 DATA_NAN        = pd.NaT
 
 INTEGER_ZERO     = 0
@@ -60,13 +63,21 @@ DATA_ZERO        = pd.NaT
 # Valid types
 BOOL_TYPES        = ["bool", "boolean", "Boolean", bool]
 
-INTEGER_TYPES     = ["int32", "int64", "Int32", "Int64",
-                     int, pd.Int8Dtype, pd.Int16Dtype, pd.Int32Dtype, pd.Int64Dtype,
-                     np.int32, np.int64]
+#INTEGER_TYPES     = ["int32", "int64", "Int32", "Int64",
+#                     int, pd.Int8Dtype, pd.Int16Dtype, pd.Int32Dtype, pd.Int64Dtype,
+#                     np.int32, np.int64, int]
 
-FLOAT_TYPES       = ["float32", "float64", "Float32", "Float64",
-                     float, pd.Float32Dtype, pd.Float64Dtype,
-                     np.float32, np.float64]
+#FLOAT_TYPES       = ["float32", "float64", "Float32", "Float64",
+#                     float, pd.Float32Dtype, pd.Float64Dtype,
+#                     np.float32, np.float64, float]
+
+INTEGER_TYPES     = [int, pd.Int8Dtype, pd.Int16Dtype, pd.Int32Dtype, pd.Int64Dtype,
+                     np.int32, np.int64, np.dtypes.Int64DType, np.dtypes.Int32DType, np.dtypes.Int16DType, np.dtypes.Int8DType]
+
+FLOAT_TYPES       = [float, pd.Float32Dtype, pd.Float64Dtype,
+                     np.float32, np.float64, np.dtypes.Float64DType, np.dtypes.Float32DType]
+ 
+
 
 STRING_TYPES      = ["str", "string", "String", "object",
                      str, pd.StringDtype]
@@ -78,4 +89,8 @@ DATE_TYPES        = ["datetime64", "datetime64[ns]", "datetime64[ns, UTC]",
                      pd.DatetimeTZDtype, pd.Timestamp]
 
 NUMERICAL_TYPES   = INTEGER_TYPES + FLOAT_TYPES
-ALL_TYPES         = BOOL_TYPES + INTEGER_TYPES + FLOAT_TYPES + STRING_TYPES + CATEGORICAL_TYPES + DATE_TYPES
+SOFT_CATEGORIES   = STRING_TYPES  + CATEGORICAL_TYPES
+ALL_TYPES         = STRING_TYPES  + CATEGORICAL_TYPES + BOOL_TYPES + INTEGER_TYPES + FLOAT_TYPES + DATE_TYPES
+
+
+INVALID_CATEGORIES = [pd.NA, np.nan, None]

@@ -3,7 +3,7 @@ import numpy as np
 import random
 
 # Import the constants to have access to the toy datasets
-from src import constants
+from ... import constants
 
 @classmethod
 def generate_random_date(cls, start_date, end_date):

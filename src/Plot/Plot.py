@@ -172,8 +172,7 @@ class Plot:
     # Plots updates
     # These are done by the individual instances of each plot type
     # ----------------------------------
-    def update_figure(self):
-        pass
+
     def automatic_size(self):
         pass    
     def automatic_titles(self):

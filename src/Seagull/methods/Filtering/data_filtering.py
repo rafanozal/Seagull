@@ -6,6 +6,35 @@ Provides functionality to filter data based on certain conditions.
 
 '''
 
+# For a given string or categorical column, and another column of any
+# Return a dictionary with keys the unique categories.
+# The values are the list of the other column filtered by the category (can be empty)
+def filter_by_category(self, category_column_index, other_column_index):
+    
+        # Get the categories
+        # This will be sorted automatically
+        my_categories = self.get_categories(category_column_index)
+    
+        # Create a dictionary with the filtered values.
+        # The keys are the categories. Each has an empty list as default.
+        my_dict = {key: [] for key in my_categories}
+
+        # For each unique category
+        for category in my_categories:
+
+            # Find the appropiate rows
+            current_filtered_df = self.data[self.data.iloc[:, category_column_index] == category]
+
+            # Check that we have more than zero rows
+            # Otherwise do nothing (already an empty list)
+            if(current_filtered_df.shape[0] > 0):
+
+                # Get the values of the other column filtered by the category
+                my_dict[category] = current_filtered_df.iloc[:, other_column_index].tolist()
+
+        # Return the dictionary
+        return my_dict
+
 # For a given column, keep only the rows that have the greatest values
 def keepColumnTopValues(self, columnIndex, topValues = 20):
 

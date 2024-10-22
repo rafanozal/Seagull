@@ -85,7 +85,7 @@ class Seagull:
     #     Columns   information
     from .methods.frame_columns_info import (
         get_column_types,
-        get_column_names, get_column_name, get_total_column_name,
+        get_columns_names, get_column_name, get_total_column_name,
         get_column_index, get_columns_location,
         ncol, get_total_columns
         )
@@ -100,13 +100,13 @@ class Seagull:
         getRowsNames, getRowName, getRowIndex,
         getRow, r,
         isCategorical, isCharacter, isNumerical,
-        isFloat, isInt, isString, isBool, isBoolean,
-        getCategories
+        isFloat, isInt, isString, isBool, isBoolean
     )
 
     #      Get information regarding categories
-    from .methods.data_categorical import (
+    from .methods.Types.Categorical.data_categorical import (
         is_strict_categorical, check_if_ordered, is_ordered_categorical,
+        get_categories,
         set_categories, setCategories,
         remove_extra_categories,
         remove_NA_category, swap_NA_category
@@ -178,12 +178,21 @@ class Seagull:
     )
 
     # ---- Data casting
-    from .methods.data_casting    import columnToInteger, columnToFloat, columnToCategory, columnToString
+    from .methods.Manipulation.data_casting import(
+        column_to_integer,  column_to_float,
+        column_to_category, column_to_string,
+        column_to_date
+    )
 
     
 
     # ---- Data filtering
-    from .methods.data_filtering  import keepColumnTopValues, keepColumnByValue, countByValue
+    from .methods.Filtering.data_filtering  import(
+        keepColumnTopValues,
+        keepColumnByValue,
+        countByValue,
+        filter_by_category
+    )
 
     # ---- Data summary
     from .methods.data_summary    import summarize_categorical_column
@@ -192,7 +201,7 @@ class Seagull:
     #
     #      Iris dataset
     #      Spotify dataset
-    from .methods.toy_datasets    import set_iris, load_iris, get_spotify_datasets
+    from .methods.Datasets.toy_datasets    import set_iris, load_iris, get_spotify_datasets
 
     # -------------------------------------------------
     # Constructor

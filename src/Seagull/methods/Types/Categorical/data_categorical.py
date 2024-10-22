@@ -5,6 +5,33 @@ import numpy as np
 # Import the constants to have access to the toy datasets
 from src import constants
 
+# If a column have categorical data, return the categories
+# If the column is not categorical, return an empty list
+def get_categories(self, index):
+
+    return_categories = []
+
+    # If you try to run this on a non-categorical column, does nothing extra
+    if(self.isCategorical(index) == False):
+        print()
+        print("WARNING!: The column is not categorical")
+        print()
+
+    # Otherwise find the categories
+    else:
+
+        # If the column is actually a full categorical with levels
+        if(self.data.iloc[ :  , index ].dtype == 'category'):
+            return_categories = self.data.iloc[ :  , index ].cat.categories.to_list()
+
+        # Otherwise, is just a colection of strings
+        else:
+            return_categories = self.data.iloc[ :  , index ].unique()
+
+    return (return_categories)
+
+
+
 # Check if the column is stricly categorical
 # Strings are not considered categorical in this case
 def is_strict_categorical(self, column_index:int):
@@ -153,7 +180,7 @@ def set_categories(self, column_index:int, new_categories, new_are_ordered = Fal
 
         # Check if we are in + , = , - case:
         # ---- Grab the old categories
-        old_categories = self.getCategories(column_index)
+        old_categories = self.get_categories(column_index)
 
         # Check if the old categories are a subset of the new categories
         old_categories_set            = set(old_categories)
@@ -477,11 +504,20 @@ def swap_NA_category(self, column_index:int, new_value = "Uknown"):
         #na_was_category = constants.CATEGORICAL_NAN in old_categories
 
         # Check if whatever NaN category exist is part of the values in the column
-        na_was_category = constants.CATEGORICAL_NAN in (self.data.iloc[:, column_index]).to_list()
+        na_was_category = False
+        my_data = (self.data.iloc[:, column_index]).to_list()
+        i = 0
+        my_data_len = len(my_data)
+        while (not na_was_category) and (i < my_data_len):
+            if(pd.isna(my_data[i])):
+                na_was_category = True
+            i = i + 1
+         
+        #na_was_category = constants.CATEGORICAL_NAN in (self.data.iloc[:, column_index]).to_list()
 
         # If was part of the categories, try to delete it
         # If it wasn't, there's nothing to remove, so don't do anything extra.
         if(na_was_category):
        
-            self.data.iloc[:, column_index] = self.data.iloc[:, column_index].cat.add_categories(new_value)
+            self.data.iloc[:, column_index] = self.data.iloc[:, column_index].cat.add_categories(new_value) # IS IMPOSSIBLE TO NOT GET A FUTURE WARNING!!
             self.data.iloc[:, column_index] = self.data.iloc[:, column_index].fillna(new_value)

@@ -30,6 +30,7 @@ We have:
 
 # General libraries
 import pandas as pd
+import numpy  as np # (only for the np.nan in categories)
 
 # Imports for the iris dataset
 import sklearn.datasets
@@ -58,22 +59,28 @@ def set_iris(self):
         - sepal width (cm)  | float64
         - petal length (cm) | float64
         - petal width (cm)  | float64
-        - target            | categorical
+        - species           | categorical
 
     '''
 
     # Load the data from sklearn
     sampleData = sklearn.datasets.load_iris()
 
+    print("----Iris dataset----")
+    print(sampleData.target)
+    print(sampleData.target_names)
+
     # This is a complete clusterfuck of syntax, but to get the species you need to use this special command 0_o
     species_data = sampleData.target_names[sampleData.target] # we will save this for later
+
+    print(species_data)
 
     # Get the dimensions and an empty dataframe
     df_n_rows         = len(sampleData.data)
     df_n_columns      = len(sampleData.data[0]) + 1
     self.totalRows    = df_n_rows
     self.totalColumns = df_n_columns
-    self.data         = pd.DataFrame(index=range(df_n_rows),columns=range(df_n_columns))
+    self.data         = pd.DataFrame(index = range(df_n_rows) , columns = range(df_n_columns))
 
     # Give the name to the object
     self.name = "Iris dataset"
@@ -89,12 +96,14 @@ def set_iris(self):
 
     # Set the categories
     for i in range(df_n_rows):
-        self[i,df_n_columns-1] = species_data[i]
+        self.data.iloc[i,df_n_columns-1] = species_data[i]
+        #self[i,df_n_columns-1] = species_data[i]
+        print(species_data[i])
 
     # Set the columns type correctly
     for j in range(df_n_columns-1):
-        self.columnToFloat(j)
-    self.columnToCategory(df_n_columns-1)
+        self.column_to_float(j)
+    self.column_to_category(df_n_columns-1, ['setosa', 'versicolor', 'virginica'])
 
     # Return error code?
     return 0
@@ -239,7 +248,11 @@ def get_spotify_datasets(cls):
                    "int", "category", "category", "int", "int",
                    "int", "int",      "int",      "int", "int"]
 
-    songsDF      = cls(completeData_totalRows , 25, dtypes = song_dtypes)
+    #songsDF      = cls(completeData_totalRows , 25, dtypes = song_dtypes)
+
+    songsDF_data = pd.DataFrame(index=range(completeData_totalRows),columns=range(25))
+
+    
 
     # Prepare the categorical values for key and mode
     #
@@ -273,9 +286,14 @@ def get_spotify_datasets(cls):
     # Mode categories
     mode_categories = ['Major', 'Minor']
 
+    
     # Assign the categories to the dataframe columns
-    songsDF.set_categories(16, key_categories,  new_are_ordered = True)
-    songsDF.set_categories(17, mode_categories, new_are_ordered = False)
+
+    
+    #songsDF.set_categories(16, key_categories,  new_are_ordered = True)
+    #songsDF.set_categories(17, mode_categories, new_are_ordered = False)
+
+    
 
     # Remove the NAs from the mode column
     # songsDF.remove_NA_category(17)
@@ -295,33 +313,43 @@ def get_spotify_datasets(cls):
         date_str     = f"{current_year}-{current_month}-{current_day}"
         current_date = pd.to_datetime(date_str)
         
-        
         # Assign each column to the correct value
-        songsDF[i,0]  = i                             # ID
-        songsDF[i,1]  = completeData.iloc[i,0]        # Name
-        songsDF[i,2]  = int(completeData.iloc[i,2])   # Artist count
-        songsDF[i,3]  = current_year                  # Year
-        songsDF[i,4]  = current_month                 # Month
-        songsDF[i,5]  = current_day                   # Day
-        songsDF[i,6]  = current_date                  # Date
-        songsDF[i,7]  = int(completeData.iloc[i,6])   # Spotify playlists
-        songsDF[i,8]  = int(completeData.iloc[i,7])   # Spotify charts
-        songsDF[i,9]  = int(completeData.iloc[i,8])   # Streams
-        songsDF[i,10] = int(completeData.iloc[i,9])   # Apple playlists
-        songsDF[i,11] = int(completeData.iloc[i,10])  # Apple charts
-        songsDF[i,12] = robust_int_conversion(completeData.iloc[i,11])  # Deezer playlists
-        songsDF[i,13] = robust_int_conversion(completeData.iloc[i,12])  # Deezer charts
-        songsDF[i,14] = pd.NA if(pd.isna(completeData.iloc[i,13])) else int(robust_int_conversion(completeData.iloc[i,12])) # Shazam charts
-        songsDF[i,15] = int(completeData.iloc[i,14])  # BPM
-        songsDF[i,16] = completeData.iloc[i,15]       # Key
-        songsDF[i,17] = completeData.iloc[i,16]       # Mode
-        songsDF[i,18] = int(completeData.iloc[i,17])  # Danceability
-        songsDF[i,19] = int(completeData.iloc[i,18])  # Valence
-        songsDF[i,20] = int(completeData.iloc[i,19])  # Energy
-        songsDF[i,21] = int(completeData.iloc[i,20])  # Acousticness
-        songsDF[i,22] = int(completeData.iloc[i,21])  # Instrumentalness
-        songsDF[i,23] = int(completeData.iloc[i,22])  # Liveness
-        songsDF[i,24] = int(completeData.iloc[i,23])  # Speechiness
+        songsDF_data.iloc[i,0]  = i                             # ID
+        songsDF_data.iloc[i,1]  = completeData.iloc[i,0]        # Name
+        songsDF_data.iloc[i,2]  = int(completeData.iloc[i,2])   # Artist count
+        songsDF_data.iloc[i,3]  = current_year                  # Year
+        songsDF_data.iloc[i,4]  = current_month                 # Month
+        songsDF_data.iloc[i,5]  = current_day                   # Day
+        songsDF_data.iloc[i,6]  = current_date                  # Date
+        songsDF_data.iloc[i,7]  = int(completeData.iloc[i,6])   # Spotify playlists
+        songsDF_data.iloc[i,8]  = int(completeData.iloc[i,7])   # Spotify charts
+        songsDF_data.iloc[i,9]  = int(completeData.iloc[i,8])   # Streams
+        songsDF_data.iloc[i,10] = int(completeData.iloc[i,9])   # Apple playlists
+        songsDF_data.iloc[i,11] = int(completeData.iloc[i,10])  # Apple charts
+        songsDF_data.iloc[i,12] = robust_int_conversion(completeData.iloc[i,11])  # Deezer playlists
+        songsDF_data.iloc[i,13] = robust_int_conversion(completeData.iloc[i,12])  # Deezer charts
+        songsDF_data.iloc[i,14] = pd.NA if(pd.isna(completeData.iloc[i,13])) else int(robust_int_conversion(completeData.iloc[i,12])) # Shazam charts
+        songsDF_data.iloc[i,15] = int(completeData.iloc[i,14])  # BPM
+
+        # Key
+        if(pd.isna(completeData.iloc[i,15]) or pd.isnull(completeData.iloc[i,15])):
+            songsDF_data.iloc[i,16] = np.nan
+        else:
+            songsDF_data.iloc[i,16] = completeData.iloc[i,15]
+
+        # Mode
+        if(pd.isna(completeData.iloc[i,16]) or pd.isnull(completeData.iloc[i,16])):
+            songsDF_data.iloc[i,17] = np.nan
+        else:
+            songsDF_data.iloc[i,17] = completeData.iloc[i,16]
+
+        songsDF_data.iloc[i,18] = int(completeData.iloc[i,17])  # Danceability
+        songsDF_data.iloc[i,19] = int(completeData.iloc[i,18])  # Valence
+        songsDF_data.iloc[i,20] = int(completeData.iloc[i,19])  # Energy
+        songsDF_data.iloc[i,21] = int(completeData.iloc[i,20])  # Acousticness
+        songsDF_data.iloc[i,22] = int(completeData.iloc[i,21])  # Instrumentalness
+        songsDF_data.iloc[i,23] = int(completeData.iloc[i,22])  # Liveness
+        songsDF_data.iloc[i,24] = int(completeData.iloc[i,23])  # Speechiness
 
     # Set the columns names
     my_columns_names = ['SongID', 'Track name', 'Total artists', 'Released year', 'Released month',
@@ -331,8 +359,42 @@ def get_spotify_datasets(cls):
                         'valence_%', 'energy_%', 'acousticness_%', 'instrumentalness_%', 'liveness_%',
                         'speechiness_%']
 
-    songsDF.renameColumns(my_columns_names)
+    songsDF_data.columns = my_columns_names
 
+    #songsDF_data.columns =.renameColumns(my_columns_names)
+
+    songsDF = cls()
+    songsDF.set_name("Songs dataset")
+    songsDF.setData(songsDF_data)
+    songsDF.setTotalRows(completeData_totalRows)
+    songsDF.setTotalColumns(25)
+
+    # Set the columns type correctly (most of them are integers)
+    songsDF.column_to_integer(0)
+    songsDF.column_to_string(1)
+    songsDF.column_to_integer(2)
+    songsDF.column_to_integer(3)
+    songsDF.column_to_integer(4)
+    songsDF.column_to_integer(5)
+    songsDF.column_to_date(6)
+    songsDF.column_to_integer(7)
+    songsDF.column_to_integer(8)
+    songsDF.column_to_integer(9)
+    songsDF.column_to_integer(10)
+    songsDF.column_to_integer(11)
+    songsDF.column_to_integer(12)
+    songsDF.column_to_integer(13)
+    songsDF.column_to_integer(14)
+    songsDF.column_to_integer(15)
+    songsDF.column_to_category(16, key_categories)
+    songsDF.column_to_category(17, mode_categories)
+    songsDF.column_to_integer(18)
+    songsDF.column_to_integer(19)
+    songsDF.column_to_integer(20)
+    songsDF.column_to_integer(21)
+    songsDF.column_to_integer(22)
+    songsDF.column_to_integer(23)
+    songsDF.column_to_integer(24)
 
     # --------------------
     # C) Composer dataset

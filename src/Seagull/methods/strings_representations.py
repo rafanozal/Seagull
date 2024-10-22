@@ -28,6 +28,7 @@ def str_square(self, r = 5, c = 5):
     # Return the string
     return(my_return_str)
 
+# Default to_str method
 # Shows all the data
 def str_complete(self):
     return((self.data).to_string())
@@ -45,7 +46,7 @@ def str_overview(self, preview = 5):
     # We are going to save in this list the name of the columns
     # but we are going to add spaces to the right to make them
     # all the same size
-    columnsNormalized = self.get_column_names()
+    columnsNormalized = self.get_columns_names()
 
     # We are going to find the longest name
     longestName = 0
@@ -78,7 +79,7 @@ def str_overview(self, preview = 5):
 
     return(str_final)
 
-# Default to_str method
+# Short version of the overview
 def to_string(self):
     return(str_overview(self, 5))
 
@@ -103,7 +104,7 @@ def describe_types(self):
         # We are going to save in this list the name of the columns
         # but we are going to add spaces to the right to make them
         # all the same size
-        columnsNormalized = self.getColumnNames()
+        columnsNormalized = self.get_columns_names()
     
         # We are going to find the longest name
         longestName = 0
@@ -122,10 +123,10 @@ def describe_types(self):
         str_final = str_final + "---------------\n"
     
         # Update the types
-        myTypes = self.getColumnTypes()
+        myTypes = self.get_column_types()
     
         for i in range(self.totalColumns):
-            str_final = str_final + "     " + str(i) + " | " + columnsNormalized[i] + " : " + str(myTypes.iloc[i])
+            str_final = str_final + "     " + str(i) + " | " + columnsNormalized[i] + " : " + str(myTypes[i])
 
             # If it is an integer or a float we can calculate some statistics
             if self.isNumerical(i):
@@ -142,7 +143,7 @@ def describe_types(self):
             elif self.isCategorical(i):
                 str_final = str_final + " | " 
 
-                my_categories = self.getCategories(i)
+                my_categories = self.get_categories(i)
 
                 for category in my_categories:
                     str_final = str_final + str(category) + " (" + str(self.data.iloc[:,i].value_counts()[category]) + "), "

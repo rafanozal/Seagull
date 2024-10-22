@@ -1,35 +1,27 @@
-#%%
-import matplotlib.pyplot as plt
-import numpy as np
+import pandas as pd
+from pandas.api.types import CategoricalDtype
 
-# Sample data: a list of numbers
-data = np.random.random_sample((100,))
+sales_1 = [{'account': 'Jones LLC', 'Status': 'Gold', 'Jan': 150, 'Feb': 200, 'Mar': 140},
+         {'account': 'Alpha Co', 'Status': 'Gold', 'Jan': 200, 'Feb': 210, 'Mar': 215},
+         {'account': 'Blue Inc',  'Status': 'Silver', 'Jan': 50,  'Feb': 90,  'Mar': 95 }]
+df_1 = pd.DataFrame(sales_1)
+status_type = CategoricalDtype(categories=['Silver', 'Gold'], ordered=True)
+df_1['Status'] = df_1['Status'].astype(status_type)
 
-# Sort data to facilitate upward jittering
-data.sort()
 
-# Initialize y-values at zero
-y_values = np.zeros(len(data))
+print(df_1['Status'].cat.categories.to_list())
 
-# Define the minimum distance to avoid overlap
-min_distance = 0.01
 
-# Apply jitter: move points up only if they overlap
-for i in range(1, len(data)):
-    if data[i] == data[i - 1]:
-        y_values[i] = y_values[i - 1] + min_distance
+sales_2 = [{'account': 'Smith Co', 'Status': 'Silver', 'Jan': 100, 'Feb': 100, 'Mar': 70},
+         {'account': 'Bingo', 'Status': 'Bronze', 'Jan': 310, 'Feb': 65, 'Mar': 80}]
+df_2 = pd.DataFrame(sales_2)
+df_2['Status'] = df_2['Status'].astype(status_type)
 
-# Create a scatter plot with flipped axes
-plt.figure(figsize=(2, 8))  # Adjusted figure size for vertical layout
-plt.scatter(y_values, data, alpha=0.5)  # Swap x and y values
+print(df_2)
+print(df_2['Status'].cat.categories.to_list())
 
-# Set plot labels and title
-plt.ylabel('Values')
-plt.title('One-Dimensional Scatter Plot with Upward Jitter')
+df_2['Status'].cat.categories.set_categories(['Bronze', 'Silver', 'Gold'], ordered=True)
 
-# Remove x-axis as it's not meaningful in this context
-plt.xticks([])
 
-# Show the plot
-plt.show()
-# %%
+print(df_2)
+print(df_2['Status'].cat.categories.to_list())

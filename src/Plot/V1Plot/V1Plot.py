@@ -1,16 +1,6 @@
-# General libraries
-import numpy as np
-import matplotlib.pyplot      as plt
-import matplotlib.patheffects as PathEffects
-import random
-import string
-
-# Import the auxiliary libraries
-import lib.color_manager as mytools
 
 # Import the main libraries
 from ..Plot     import Plot
-from ...Seagull import Seagull
 
 class V1Plot(Plot):
 

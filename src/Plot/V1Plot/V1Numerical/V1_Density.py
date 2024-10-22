@@ -24,7 +24,7 @@ class Density_plot(V1Plot):
     # Default constructor
     def __init__(self, data = None, numerical_column_index:int = None, folder_path = None,  # Rearranged parameters for easy use
                  column:str = None,                                                         # Alias for numerical_column_index
-                 extra_info:bool = True, bandwidth = 0.5,                                   # Density plot parameters
+                 extra_info:bool = True, show_points:bool = True, bandwidth = 0.5,          # Density plot parameters
                  **kwargs):                                                                 # Other parameters
 
         # -----------------------------------------
@@ -43,7 +43,8 @@ class Density_plot(V1Plot):
         # it took me forever to find this bug and move this section to the start
 
         # Labels related
-        self.extra_info     = extra_info # If True, it will show the mean and percentiles
+        self.extra_info     = extra_info  # If True, it will show the mean and percentiles
+        self.cloudpoints    = show_points # If True, it will show the jitter cloudpoints
 
         # Style related
         self.line_thickness    = 2
@@ -122,7 +123,7 @@ class Density_plot(V1Plot):
                     #    if it does, it will use it and be confusing until the user realizes.
                     if(type(numerical_column_index) == str):
 
-                        index_candidate = data.getColumnIndex(numerical_column_index)
+                        index_candidate = data.get_column_index(numerical_column_index)
                         if(index_candidate < 0):
 
                             print()
@@ -137,7 +138,7 @@ class Density_plot(V1Plot):
                             print()
 
                         else:
-                            numerical_column_index =  data.getColumnIndex(numerical_column_index)
+                            numerical_column_index =  data.get_column_index(numerical_column_index)
 
                     # If the filename is not set, set it automatically
                     if(self.filename == None):
@@ -198,7 +199,7 @@ class Density_plot(V1Plot):
             target_column_name  = numerical_column_index
             target_column_index = seagull_instance.getColumnIndex(numerical_column_index)
         else:
-            target_column_name  = seagull_instance.getColumnName(numerical_column_index)
+            target_column_name  = seagull_instance.get_column_name(numerical_column_index)
             target_column_index = numerical_column_index
 
         # Check if the data is numerical
@@ -214,7 +215,7 @@ class Density_plot(V1Plot):
         else:
 
             # Get the data
-            self.data_x      = np.sort(seagull_instance.getValues(target_column_index))
+            self.data_x      = np.sort(seagull_instance.get_column_values(target_column_index))
             self.data_name   = seagull_instance.getName()
             self.data_name_x = target_column_name
 
@@ -265,7 +266,7 @@ class Density_plot(V1Plot):
         if(color_alpha_start != None): self.color_alpha_start = color_alpha_start
         if(color_alpha_end   != None): self.color_alpha_end   = color_alpha_end
         if(color_alpha_stop  != None): self.color_alpha_stop  = color_alpha_stop
-
+    
     # Update the figure based on the data we have in the object
     def update_figure(self):
         """
@@ -398,6 +399,26 @@ class Density_plot(V1Plot):
             ax.axvline(x = mean_value, color = self.color_line, linestyle='-', linewidth = 2)
 
         
+        # If the cloudpoint is requested, add it
+        if(self.cloudpoints):
+
+     
+
+            # Calculate the maximum density to determine the jitter range
+            max_density = max(density_data)
+            max_jitter = 0.1 * max_density  # 10% of the maximum density
+
+            # Introduce some random jitter to the y-values within the range [0, max_jitter]
+            y_jitter = np.random.uniform(low=0, high=max_jitter, size=len(self.data_x))
+
+            # Plot the jittered points
+            ax.scatter(self.data_x, y_jitter, color=self.color_line, alpha=0.5)  # Use a contrasting color for visibility
+
+
+        # ---------------------------------------------------------------------
+        # Plot theme:
+        # ---------------------------------------------------------------------
+
         # Apply the theme for the plot
         ax.grid(color ='grey',
                 linestyle ='-.', linewidth = 0.5,

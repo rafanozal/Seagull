@@ -43,7 +43,7 @@ def summarize_categorical_column(self, column_index, sort = "original", top = 0)
         column_index = self.getColumnIndex(column_index)
 
 
-    categories = self.getCategories(column_index)
+    categories = self.get_categories(column_index)
     total_categories = len(categories)
 
     total_rows = self.totalRows
@@ -72,8 +72,8 @@ def summarize_categorical_column(self, column_index, sort = "original", top = 0)
 
     # By default, the entire dataframe is made of float
     # recast the appropiate columns
-    resultDF.columnToInteger(1)
-    resultDF.columnToInteger(2)
+    resultDF.column_to_integer(1)
+    resultDF.column_to_integer(2)
 
     # Round the frequencies
     # Int columns remain unchanged

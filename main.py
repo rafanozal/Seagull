@@ -55,30 +55,6 @@ def main():
     TEST_NUMCATS    = False           
     TEST_VODOROY    = False            
 
-
-    # -------------------------------------------------------------------------
-    # Example Categorical:
-    # 
-    #   - Create a random categorical Seagull object
-    #   - Print an overview of such object
-    # -------------------------------------------------------------------------
-    if(TEST_ALL or TEST_CATEGORIES):
-
-        print()
-        print(" -- Example Categorical -- ")
-        print()
-
-        # ---------------------------------------------------------------------
-        # Prepare the dataframe
-        # ---------------------------------------------------------------------
-        categoricalDF = Seagull(20,10)
-        categoricalDF.randomize_categorical()
-        categoricalDF.print_overview()
-
-        summaryDF = categoricalDF.summarize_categorical_column(4)
-        summaryDF.print_overview()
-        
-
     # -------------------------------------------------------------------------
     # Example Heatmaps:
     # 

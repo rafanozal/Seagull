@@ -1,6 +1,5 @@
 # Pandas
 import pandas as pd
-import numpy  as np
 
 # Constants
 from src import constants
