@@ -25,6 +25,9 @@ def c(self, index):
 def get_column_values(self, index):
     return self.data.iloc[ :  , index ].to_numpy()
 
+# Get the column type
+def get_column_type(self, index):
+    return self.data.iloc[ :  , index ].dtype
 
 # Check if the column is categorical
 # It could be both strings, or a well defined category

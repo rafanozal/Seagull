@@ -7,6 +7,7 @@
 # TODO: (Can't make subclasses import from parent class libraries)
 # ----------------------------------------------------
 
+from abc import ABC, abstractmethod           # Abstract class library
 
 # General libraries
 import numpy as np
@@ -19,7 +20,7 @@ import string
 # Import the auxiliary libraries
 import lib.color_manager as mypaint           # Import the color manager
 
-class Plot:
+class Plot(ABC):
 
     """
     A class representing a plot object.
@@ -87,13 +88,20 @@ class Plot:
     def __init__(self, folder_path = None, filename = None,
                  plot_title   = None, plot_subtitle = None,
                  plot_y_Label = None, plot_x_label  = None,
-                 plotLegend   = None,
+                 plot_legend  = None,
                  image_w_size = None, image_h_size = None):
 
+        # ------------------------------------------
+        # Type
+        # ------------------------------------------
+
+        self.type:str         = "Plot"             # What type of plot it is (e.g. "scatter", "histogram", etc)
+
+        # ------------------------------------------
+        # Folder and Filename
+        # ------------------------------------------
+
         self.folder_path:str  = folder_path        # Where in this the image for this plot is stored, this is a folder
-
-        self.type:str         = ""                 # What type of plot it is (e.g. "scatter", "histogram", etc)
-
         self.filename:str     = filename           # The name of the files which will be saved
                                                    #     If the name is "myPlot", then the files will be saved as:
                                                    #         myPlot.png
@@ -101,34 +109,37 @@ class Plot:
                                                    #         myPlot.svg
                                                    #     All of these will be inside filepath folder
 
+        print("PLOT CONSTRUCTOR")
+        print()
+        print("Plot filename: ", self.filename)
+        print("Plot folder path: ", self.folder_path)
+        print()
+
         # ------------------------------------------
         # Figure
         # ------------------------------------------
         self.manual_size:bool  = False             # If someone changed the size manually
-
-        if(image_w_size == None):
-            self.figure_width  = 15
-        else:
-            self.manual_size   = True
-
-        if(image_h_size == None):
-            self.figure_width  = 10
-        else:
-            self.manual_size   = True
 
         self.figure            = None              # Initialize the figure to the default (fig)
         self.axes              = None              # Initialize the axes object (ax)
         self.figure_width:int  = image_w_size      # W and H size of the figure
         self.figure_height:int = image_h_size
 
+        # Update default size if needed
+        if(self.figure_width == None):
+            self.figure_width  = 15
+        else:
+            self.manual_size   = True
+
+        if(self.figure_height == None):
+            self.figure_width  = 10
+        else:
+            self.manual_size   = True
+
         # ------------------------------------------
         # Data
         # ------------------------------------------
         self.data_name     = "<Default data name>" # These are just defaults that you should never see
-        self.data_name_x   = "<X>"                 # The final instances of plots are the one responsible
-        self.data_name_y   = "<Y>"                 # for initiating and updating these values properly.
-        self.data_name_z   = "<Z>"
-        self.legend_name_z = "<Zelda>"
 
         # ------------------------------------------
         # Labels
@@ -138,7 +149,7 @@ class Plot:
         self.label_subtitle:str   = plot_subtitle
         self.label_y_axys:str     = plot_y_Label
         self.label_x_axys:str     = plot_x_label
-        self.label_legend:str     = plotLegend
+        self.label_legend:str     = plot_legend
         
         # ------------------------------------------
         # Theme
@@ -169,15 +180,24 @@ class Plot:
         self.theme_inner_panel_border_alpha = 1.0
 
     # ----------------------------------
-    # Plots updates
-    # These are done by the individual instances of each plot type
-    # ----------------------------------
-
-    def automatic_size(self):
-        pass    
+    # Abstract methods
+    # To be implemented by instanciable subclasses
+    # ----------------------------------    
+    @abstractmethod
+    def update_figure(self):
+        """
+        Update the state of the object.
+        Subclasses are expected to implement this method.
+        """
+        pass
+    @abstractmethod
+    def automatic_filename(self):
+        pass
+    @abstractmethod
     def automatic_titles(self):
         pass
-    def show_extra_info(self):
+    @abstractmethod
+    def automatic_size(self):
         pass
 
     # ----------------------------------
@@ -188,7 +208,6 @@ class Plot:
     # ----------------------------------
     # Show the plot
     # ----------------------------------
-    
     # Show the plot using the matplotlib library
     def show(self):
         self.update_figure()
@@ -196,11 +215,17 @@ class Plot:
         plt.show()
     
     # ----------------------------------
+    # Seters and getters
+    # ----------------------------------
+    def set_filename(self, filename:str):
+        self.filename = filename
+
+    # ----------------------------------
     # Saving the plot in disk
     # ----------------------------------
 
     # Save the plot using the matplotlib library
-    def save(self, savePNG = True, savePDF = True, saveSVG = True, saveTXT = False, saveHTML = False):
+    def save(self, savepath = None, savePNG = True, savePDF = True, saveSVG = True, saveTXT = False):
 
         self.update_figure()
 
@@ -220,8 +245,6 @@ class Plot:
         # For each of the possible extra format, also save the figure
         if(saveTXT):
             print("TODO:Save the TXTs")
-        if(saveHTML):
-            print("TODO:Save the HTMLs")
 
     # ----------------------------------
     # Themes of a plot

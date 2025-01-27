@@ -25,6 +25,7 @@ EXAMPLES_ANALYSIS_NUMERICAL_UNIVARIATE_PATH = os.path.join(EXAMPLES_ANALYSIS_PAT
 
 # /out/Examples/Plots/
 EXAMPLES_PLOTS_PATH  = os.path.join(EXAMPLES_PATH, 'Plots')
+BARPLOT_PATH         = os.path.join(EXAMPLES_PLOTS_PATH, 'Barplots')
 DENSITY_PLOTS_PATH   = os.path.join(EXAMPLES_PLOTS_PATH, 'Density_Plots')
 HISTOGRAM_PLOTS_PATH = os.path.join(EXAMPLES_PLOTS_PATH, 'Histogram_Plots')
 
@@ -80,7 +81,7 @@ FLOAT_TYPES       = [float, pd.Float32Dtype, pd.Float64Dtype,
 
 
 STRING_TYPES      = ["str", "string", "String", "object",
-                     str, pd.StringDtype]
+                     str, pd.StringDtype, object, np.dtypes.ObjectDType]
 
 CATEGORICAL_TYPES = ["categorical", "Categorical", "object", "category",
                      pd.CategoricalDtype]

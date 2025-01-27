@@ -33,7 +33,7 @@ def get_column_name(self, columnIndex):
 # Get how many columns have the given name
 def get_total_column_name(self, column_name) -> int:
     
-    my_names = self.get_column_names()
+    my_names = self.get_columns_names()
     total    = my_names.count(column_name)
 
     return total

@@ -75,10 +75,10 @@ def solve_index_and_column(numerical_column_index, name_column_string):
 # Return the index if a valid index was found
 def solve_index(data, numerical_column_index, expected_data_type = None, silent_error = False, silent_warning = False):
 
-    print("Solving index")
-    print("Index: " + str(numerical_column_index))
-    print(type(numerical_column_index))
-    print("Expected data type: " + str(expected_data_type))
+    #print("Solving index")
+    #print("Index: " + str(numerical_column_index))
+    #print(type(numerical_column_index))
+    #print("Expected data type: " + str(expected_data_type))
 
 
     # Return variable
@@ -128,7 +128,7 @@ def solve_index(data, numerical_column_index, expected_data_type = None, silent_
                 # Check that such name exist, and return the first match
                 index_candidate = data.get_column_index(numerical_column_index)
 
-                print("Index candidate: " + str(index_candidate))
+                #print("Index candidate: " + str(index_candidate))
 
                 if(index_candidate < 0):
 
@@ -191,9 +191,10 @@ def solve_index(data, numerical_column_index, expected_data_type = None, silent_
                             if(silent_error == False):
 
                                 print()
-                                print("ERROR!: The given column: " + str(final_index) + " is not of the expected type.")
-                                print("        The expected type was: " + str(expected_data_type) + ".")
-                                print("        The actual type is: " + str(data.get_column_types()[final_index]) + ".")
+                                print("ERROR!: The given column is not of the expected type.")
+                                print("        Column:        " + str(final_index))
+                                print("        Expected type: " + str(expected_data_type) + ".")
+                                print("        Actual type:   " + str(data.get_column_types()[final_index]) + ".")
                                 print()
                     else:
                         if(data.get_column_types()[final_index] == expected_data_type):

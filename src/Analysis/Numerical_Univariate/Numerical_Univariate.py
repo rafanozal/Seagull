@@ -106,7 +106,7 @@ import lib.solvers as my_solvers
 
 # Import the main libraries
 from ..Analysis import Analysis
-from ...Plot.V1Plot.V1Numerical.V1_Density import Density_plot
+from ...Plot.V1_Plot.V1Numerical.V1_Density import Density_plot
 
 #from ...Seagull import Seagull
 

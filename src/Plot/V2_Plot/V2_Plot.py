@@ -2,7 +2,7 @@
 # Import the main libraries
 from ..Plot     import Plot
 
-class V1Plot(Plot):
+class V2_Plot(Plot):
 
     # Default constructor
     def __init__(self, **kwargs):
@@ -17,9 +17,10 @@ class V1Plot(Plot):
         # -----------------------------------------
 
         # Plot type
-        self.type = "V1 Plot"
+        self.type = "V2 Plot"
 
-        # -----------------------------------------
-        # Set the current class attributes last
-        # -----------------------------------------
-        self.data_x = None
+        #print("V2 PLOT CONSTRUCTOR")
+        #print()
+        #print("Plot filename: ", self.filename)
+        #print("Plot folder path: ", self.folder_path)
+        #print()

@@ -68,8 +68,8 @@ class Seagull:
 
     # ---- Setters and getters
     from .methods.setters_and_getters import (
-        getData, getPanda, 
-        nrow, getName,
+        get_data, get_panda, 
+        nrow,
         getTotalRows, 
         setTotalRows, setTotalColumns,
         setData
@@ -96,7 +96,7 @@ class Seagull:
 
     #      Columns data
     from .methods.data_read import (
-        getColumn, c, get_column_values,
+        getColumn, c, get_column_values, get_column_type,
         getRowsNames, getRowName, getRowIndex,
         getRow, r,
         isCategorical, isCharacter, isNumerical,
@@ -111,6 +111,10 @@ class Seagull:
         remove_extra_categories,
         remove_NA_category, swap_NA_category
     )
+
+    #      Summaries of the data
+    from .methods.Reading.data_summary    import summarize_categorical_column
+
 
     # ---- Data Loading
     #      From a given list of files, get a bunch of Seagull objects in return
@@ -158,17 +162,21 @@ class Seagull:
     )
 
     #     Normalization
-    from .methods.data_normalization import (
+    from .methods.Manipulation.data_normalization import (
         normalize,
         normalize_column, normalize_columns,
         normalize_row,    normalize_rows
     )
 
     #     Randomization
-    from .methods.data_randommize import zero, randomize, randomize_categorical
+    from .methods.Manipulation.data_randommize import(
+        zero,
+        randomize,
+        randomize_categorical
+    )
 
     #     Renaming
-    from .methods.frame_renaming import (
+    from .methods.Manipulation.frame_renaming import (
         rename_columns, renameColumns, setColumnsNames,
         rename_column, renameColumn, setColumnName,
         rename_rows, setRowsNames,
@@ -177,25 +185,36 @@ class Seagull:
 
     )
 
-    # ---- Data casting
+    #     Casting
     from .methods.Manipulation.data_casting import(
         column_to_integer,  column_to_float,
         column_to_category, column_to_string,
         column_to_date
     )
 
-    
+    # -------------------------------------------------
+    #     Data Filtering
+    # -------------------------------------------------
+    #
+    # Get the biggest elements in column:            keep_column_top_values,
+    # keepColumnByValue,
+    # Count how many given values are in a column:   count_by_value,
+    # Return values assing to category:              filter_by_category,
+    # Check if elements are inside columns:          inside 
+    # Keep a given list of columns                   keep_columns
 
     # ---- Data filtering
     from .methods.Filtering.data_filtering  import(
-        keepColumnTopValues,
+        keep_column_top_values,
         keepColumnByValue,
-        countByValue,
-        filter_by_category
+        count_by_value,
+        filter_by_category,
+        mask,
+        inside,
+        keep_columns
     )
 
-    # ---- Data summary
-    from .methods.data_summary    import summarize_categorical_column
+    
 
     # ---- Toy datasets
     #
@@ -376,15 +395,15 @@ class Seagull:
     def copy(self):
 
         # Get a seagull of same size and data structure
-        newSeagul = Seagull(self.totalRows, self.totalColumns, dtypes = self.getColumnTypes())
+        newSeagul = Seagull(self.totalRows, self.totalColumns, dtypes = self.get_column_types())
 
         # Get the same column names
-        newSeagul.renameColumns(self.getColumnNames())
+        newSeagul.renameColumns(self.get_columns_names())
 
         # For each categorical data, set the same categories
         for i in range(self.totalColumns):
             if(self.is_strict_categorical(i)):
-                newSeagul.setCategories(i, self.getCategories(i))
+                newSeagul.setCategories(i, self.get_categories(i))
 
         # Copy the data
         for i in range(self.totalRows):
@@ -411,8 +430,12 @@ class Seagull:
         indexRow    = None
         indexColumn = None
 
+        #print("-----------------")
+        #print("Setting []")
+        #print()
         #print("KEY:   ", key)
-        #print("VALUE: ", value)
+        #print("VALUE: ")
+        #print(value)
         #print("TYPE:  ", type(key))
         #print("-----------------")
 
@@ -435,13 +458,21 @@ class Seagull:
             # Setup the row to the complete slide, and the column to whatever index
             elif(total_instances == 1):
                 indexRow    = slice(None)
-                indexColumn = self.getColumnIndex(key)
+                indexColumn = self.get_column_index(key)
 
             # If there are several columns with the same name, we need to figure out which one
             else:
                 indexRow    = slice(None)
                 indexColumn = self.get_columns_location(key)
 
+        # Check if the key is an integer
+        # my_df[4]
+        elif isinstance(key, int):
+
+            # Nothing to check, get the key directly
+            # The index might be out of bounds, but we deal with that later
+            indexRow    = slice(None)
+            indexColumn = key
 
         # Check if the key is a tuple and if one of the elements is a string
         # my_df[ 1 , "my_column_name"]
@@ -692,12 +723,21 @@ class Seagull:
             # Setup the row to the complete slide, and the column to whatever index
             elif(total_instances == 1):
                 indexRow    = slice(None)
-                indexColumn = self.getColumnIndex(key)
+                indexColumn = self.get_column_index(key)
 
             # If there are several columns with the same name, we need to figure out which one
             else:
                 indexRow    = slice(None)
                 indexColumn = self.get_columns_location(key)            
+
+        # Check if the key is an integer
+        # my_df[4]
+        elif isinstance(key, int):
+
+            # Nothing to check, get the key directly
+            # The index might be out of bounds, but we deal with that later
+            indexRow    = slice(None)
+            indexColumn = key
 
         # Check if the key is a tuple and if one of the elements is a string
         # my_df[ 1 , "my_column_name"]
@@ -890,7 +930,7 @@ class Seagull:
             elif( list_r_flag and type(indexColumn) == slice):
 
                 # Convert the slice into a np.array
-                nc = self.getTotalColumns()
+                nc = self.get_total_columns()
                 my_np_array = np.array([False] * nc)
                 my_np_array[indexColumn] = True
 

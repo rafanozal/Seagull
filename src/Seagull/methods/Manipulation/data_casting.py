@@ -105,8 +105,8 @@ def column_to_category(self, columnIndex, categoryList = None):
 
         current_categories_set = set(currentCategories)
 
-        print("Current categories: " + str(currentCategories))
-        print(have_invalid_nans)
+        #print("Current categories: " + str(currentCategories))
+        #print(have_invalid_nans)
 
         # If it is a string
         if(not self.is_strict_categorical(columnIndex)):

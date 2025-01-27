@@ -53,7 +53,7 @@ def randomize(self, string_length = 10,
               float_min = -1 , float_max = 1,
               date_min = "1970-01-01", date_max = "3000-12-31"):
 
-    from ..Seagull import Seagull
+    from ...Seagull import Seagull
 
     for j in range(self.totalColumns):
 
@@ -101,13 +101,13 @@ def randomize(self, string_length = 10,
 
 # Randomize the whole dataset to categorical data
 # Number of categories optional
-def randomize_categorical(self, n = 5, sl = 10):
+def randomize_categorical(self, total_categories = 5, string_length = 10):
 
     # Initialize the categories at random
-    my_random_categories = ["Random"] * n
+    my_random_categories = ["Random"] * total_categories
     for i in range(len(my_random_categories)):
 
-        current_random = ''.join(random.choices(string.ascii_lowercase, k = sl))
+        current_random = ''.join(random.choices(string.ascii_lowercase, k = string_length))
         my_random_categories[i] = current_random
         
     # Assign the random values to random cells
@@ -119,7 +119,7 @@ def randomize_categorical(self, n = 5, sl = 10):
     # Convert all columns into proper categorical
     # Use the sorting of whatever original first random order had
     for j in range(self.totalColumns):
-        self.columnToCategory(j, categoryList = my_random_categories)
+        self.column_to_category(j, categoryList = my_random_categories)
 
     # Update the info in the internal object
     self.types    = ["categorical"] * self.totalColumns

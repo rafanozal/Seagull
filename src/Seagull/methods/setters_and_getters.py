@@ -15,9 +15,9 @@ Other functions that might change the attributes must use this attributes only.
 # -----------------------------------------------------------------------------
 
 # Panda object
-def getData(self):
+def get_data(self):
     return self.data
-getPanda = getData # alias
+get_panda = get_data # alias
 
 # Total columns
 def ncol(self):
@@ -30,7 +30,7 @@ def nrow(self):
 getTotalRows = nrow # alias
 
 # Name
-def getName(self):
+def get_name(self):
     return self.name
 
 

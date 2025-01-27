@@ -21,8 +21,8 @@ def head(self):
 #
 #      - original ,     if categories have being defined, use those, otherwise alphabetical
 #      - alphabeticall, 
-#      - size
-#      - reverse
+#      - count,
+#      - reverse,
 #      - reverse_size,  does the same as "reverse"
 #
 #  The results can be cropped using the top option, top <= 0 don't crop anything
@@ -36,11 +36,11 @@ def summarize_categorical_column(self, column_index, sort = "original", top = 0)
     #
     # However I can't find a way to make it works beside importing manually inside
     # each function. (This doesn't happen in superior C++ of course)
-    from ..Seagull import Seagull
+    from ...Seagull import Seagull
 
     # Transform the column index which might be a string to an integer
     if(type(column_index) == str):
-        column_index = self.getColumnIndex(column_index)
+        column_index = self.get_column_index(column_index)
 
 
     categories = self.get_categories(column_index)
@@ -56,7 +56,7 @@ def summarize_categorical_column(self, column_index, sort = "original", top = 0)
     for i in range(total_categories):
         resultDF[i,0] = categories[i]
         # n
-        resultDF[i,1] = self.countByValue(column_index, categories[i])
+        resultDF[i,1] = self.count_by_value(column_index, categories[i])
         # N
         if(i!=0):
             resultDF[i,2] = resultDF[i-1,2] + resultDF[i,1]

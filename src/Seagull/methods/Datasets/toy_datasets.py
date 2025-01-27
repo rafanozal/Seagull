@@ -66,14 +66,8 @@ def set_iris(self):
     # Load the data from sklearn
     sampleData = sklearn.datasets.load_iris()
 
-    print("----Iris dataset----")
-    print(sampleData.target)
-    print(sampleData.target_names)
-
     # This is a complete clusterfuck of syntax, but to get the species you need to use this special command 0_o
     species_data = sampleData.target_names[sampleData.target] # we will save this for later
-
-    print(species_data)
 
     # Get the dimensions and an empty dataframe
     df_n_rows         = len(sampleData.data)
@@ -95,14 +89,12 @@ def set_iris(self):
     self.renameColumns(irisNames)
 
     # Set the categories
-    for i in range(df_n_rows):
-        self.data.iloc[i,df_n_columns-1] = species_data[i]
-        #self[i,df_n_columns-1] = species_data[i]
-        print(species_data[i])
+    for i in range(df_n_rows): self.data.iloc[i,df_n_columns-1] = species_data[i]
 
-    # Set the columns type correctly
-    for j in range(df_n_columns-1):
-        self.column_to_float(j)
+    # Set the columns types correctly
+    # -- Floats
+    for j in range(df_n_columns-1): self.column_to_float(j)
+    # -- Category
     self.column_to_category(df_n_columns-1, ['setosa', 'versicolor', 'virginica'])
 
     # Return error code?

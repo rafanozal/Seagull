@@ -116,7 +116,8 @@ def set_legend(self, legend):
     self.update_figure()
 
 # Update figure size
-def set_size(self, width, height):
+def set_size(self, width, height, autoupdate = True):
     self.figure_width  = width
     self.figure_height = height
-    self.update_figure()    
+
+    if(autoupdate): self.update_figure()    

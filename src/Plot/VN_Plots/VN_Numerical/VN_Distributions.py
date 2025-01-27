@@ -313,15 +313,9 @@ class Distributions_plot(VN_Plot):
         # (B or C)
         else:
 
-            print("Categorical column")
-            print(categorical_column)
-
             index_categires_validity_list = my_solvers.solve_index_list(seagull_instance,
                                                                         categorical_column,
                                                                         expected_data_type = constants.SOFT_CATEGORIES)
-            
-            print("Categorical validity")
-            print(index_categires_validity_list)
 
             # Check that we actually have a categorical column
             # If all the indexes are valid (all elements 0 or greater)
@@ -342,33 +336,21 @@ class Distributions_plot(VN_Plot):
                                                                               numerical_column,
                                                                               expected_data_type = constants.NUMERICAL_TYPES)
 
-                    print("AAAAA")
-
                     # If all the index is valid
                     all_non_negative = all(x >= 0 for x in index_numbers_validity_list)
                     if(all_non_negative):
 
-                        print("BBBB")
-
                         # Get the categories
                         my_categories = seagull_instance.get_categories(index_categires_validity_list[0])
-
-                        print(my_categories)
 
                         # Filter the data for each category
                         my_filter_dictionary = seagull_instance.filter_by_category(index_categires_validity_list[0],
                                                                                    index_numbers_validity_list[0])
 
-                        print("FILTER DICTIONARY")
-                        print(my_filter_dictionary)
-
                         # Update the objects parameters
                         self.data_length      = len(my_categories)
                         self.data_x_list      = [None] * self.data_length
                         self.data_name_x_list = [None] * self.data_length  
-
-                        print("Data length")
-                        print(self.data_length)
 
                         for i in range(self.data_length):
                             self.data_x_list[i]      = np.sort(my_filter_dictionary[my_categories[i]])
@@ -384,9 +366,11 @@ class Distributions_plot(VN_Plot):
                         # Seagull name + Multidensity + list of indexes (with _)
                         if(autoupdate_filename):
 
-                            string_indexes = [str(num) for num in index_numbers_validity_list]
-                            join_indexes   = '_'.join(string_indexes)
-                            self.filename = "Multidensity_Plot_" + seagull_instance.get_name() + "_" + join_indexes                    
+                            string_category = [str(num) for num in index_categires_validity_list]
+                            string_numeric  = [str(num) for num in index_numbers_validity_list]
+                            string_indexes  = string_category + string_numeric
+                            join_indexes    = '_'.join(string_indexes)
+                            self.filename   = "Multidensity_Plot_" + seagull_instance.get_name() + "_" + join_indexes                    
 
                     else:
                         print()

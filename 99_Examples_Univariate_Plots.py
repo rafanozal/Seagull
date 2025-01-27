@@ -8,7 +8,7 @@ from src import constants
 from src.Seagull.Seagull import Seagull
 
 # Plots
-from src.Plot.V1Plot.V1Numerical.V1_Density import Density_plot
+from src.Plot.V1_Plot.V1Numerical.V1_Density import Density_plot
 
 def main():
 
